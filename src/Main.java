@@ -14,10 +14,14 @@ public class Main {
                 w = new ClientWorker(Server.server.accept());
                 Thread t = new Thread(w);
                 t.start();
+                System.out.println(Server.in.readLine());
+
+
             } catch (IOException e) {
                 System.out.println("Accept failed: 4321");
                 System.exit(-1);
             }
+
         }
 
 

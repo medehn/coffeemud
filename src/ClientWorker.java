@@ -7,16 +7,18 @@ import java.net.Socket;
 public class ClientWorker implements Runnable {
 
     private Socket client;
+    private BufferedReader in = null;
+    private PrintWriter out = null;
+    private Eingangsraum eingang = new Eingangsraum();
 
     ClientWorker(Socket client) {
         this.client = client;
     }
 
+
     @Override
     public void run() {
-        String line;
-        BufferedReader in = null;
-        PrintWriter out = null;
+
         try {
             in = new BufferedReader(new InputStreamReader(client.getInputStream()));
             out = new PrintWriter(client.getOutputStream(), true);
@@ -26,17 +28,31 @@ public class ClientWorker implements Runnable {
         }
 
         while (true) {
-            try {
-                line = in.readLine();
-                if (line.equals("Hallo")) {
-                    out.println("Selber Hallo");
-                }
-                out.println(line);
-            } catch (IOException e) {
-                System.out.println("Reading failed (Main)");
-                System.exit(-1);
-            }
+            communicate();
+
         }
     }
+
+    public void communicate(){
+        try {
+            String line = in.readLine();
+            //talking - if a message starts with "sag:" only the message is printed out
+            //TODO: Broadcast the message
+            if (line.matches("(?i)sag .*")) {
+                out.println(line.substring(3));
+            }
+            //if "b" is typed, the long description of the room is prompted.
+            else if (line.matches(("b"))){
+                out.println(eingang.getKurz());
+                out.println(eingang.getLang());
+            }
+//                out.println(line);
+        } catch (IOException e) {
+            System.out.println("Reading failed (Main)");
+            System.exit(-1);
+        }
+    }
+
+
 }
 
