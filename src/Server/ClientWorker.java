@@ -1,3 +1,8 @@
+package Server;
+
+import rooms.Cafeteria;
+import rooms.Hallway;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,12 +14,12 @@ public class ClientWorker implements Runnable {
     private Socket client;
     private BufferedReader in = null;
     private PrintWriter out = null;
-    private Eingangsraum eingang = new Eingangsraum();
+    public Hallway eingang = new Hallway();
+    public Cafeteria cafe = new Cafeteria();
 
-    ClientWorker(Socket client) {
+    public ClientWorker(Socket client) {
         this.client = client;
     }
-
 
     @Override
     public void run() {
@@ -52,6 +57,7 @@ public class ClientWorker implements Runnable {
             System.exit(-1);
         }
     }
+
 
 
 }

@@ -1,3 +1,5 @@
+package Server;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,7 +31,6 @@ public class SocketServer {
         }
 
         try {
-            //
             client = server.accept();
         } catch (IOException e) {
             System.out.println("Acception failed");
