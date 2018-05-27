@@ -7,59 +7,23 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.logging.Logger;
 
 
-public class SocketServer {
+public class SocketServer extends Thread {
 
-    public ServerSocket server;
-    Socket client;
-    public BufferedReader in;
-    public PrintWriter out;
-    ArrayList clients;
     private final static Logger log = Logger.getLogger(SocketServer.class.getName());
 
-
-    public void listenSocket() {
+    public static void main(String[] args) throws Exception {
+        System.out.println("The server is running.");
+        ServerSocket listener = new ServerSocket(4321);
         try {
-            //Setting up the Server
-            server = new ServerSocket(4321);
-            log.info("verbunden!");
-        } catch (IOException e) {
-            System.out.println("Could not listen to port 4321");
-            System.exit(-1);
-        }
-
-        try {
-            client = server.accept();
-        } catch (IOException e) {
-            System.out.println("Acception failed");
-            System.exit(-1);
-        }
-
-        try {
-            in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-            out = new PrintWriter(client.getOutputStream(), true);
-        } catch (IOException e) {
-            System.out.println("Reading failed");
-            System.exit(-1);
-        }
-
-    }
-
-    protected void finalize(){
-        //closing all threads and sockets
-        try{
-            server.close();
-            log.info("Alle geschlossen");
-
-
-        } catch (IOException e) {
-            System.out.println("Could not close socket");
-            System.exit(-1);
+            while (true) {
+                new Handler(listener.accept()).start();
+            }
+        } finally {
+            listener.close();
         }
     }
-
-
 }
-

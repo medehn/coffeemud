@@ -1,5 +1,7 @@
 package rooms;
 
+//Default Room Object to inherit
+
 public class Room {
 
     private String lang = "Du stehst mitten im Nirgendwo - da ist wohl was schiefgegangen!";
