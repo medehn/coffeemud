@@ -23,9 +23,6 @@ public class Handler extends Thread {
     public Hallway eingang = new Hallway();
     public Cafeteria cafe = new Cafeteria();
 
-    /**
-     * Constructs a handler thread, squirreling away the socket.
-     */
     public Handler(Socket socket) {
         this.socket = socket;
     }
@@ -70,6 +67,7 @@ public class Handler extends Thread {
             // Now that a successful name has been chosen, add the
             // socket's print writer to the set of all writers so
             // this client can receive broadcast messages.
+
             out.println("Alles klar "+name.substring(20)+", es kann losgehen!");
             writers.add(out);
             for (PrintWriter writer : writers) {
@@ -86,10 +84,15 @@ public class Handler extends Thread {
         } catch (IOException e) {
             System.out.println(e);
         } finally {
+
             // This client is going down!  Remove its name and its print
             // writer from the sets, and close its socket.
+
             if (name != null) {
                 names.remove(name);
+                for (PrintWriter writer : writers) {
+                    writer.println(name.substring(20) + " verschwindet.");
+                }
             }
             if (out != null) {
                 writers.remove(out);
