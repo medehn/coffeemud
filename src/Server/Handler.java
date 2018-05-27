@@ -1,10 +1,14 @@
 package Server;
 
+import rooms.Cafeteria;
+import rooms.Hallway;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 
 public class Handler extends Thread {
@@ -16,10 +20,11 @@ public class Handler extends Thread {
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
+    public Hallway eingang = new Hallway();
+    public Cafeteria cafe = new Cafeteria();
 
     /**
      * Constructs a handler thread, squirreling away the socket.
-     * All the interesting work is done in the run method.
      */
     public Handler(Socket socket) {
         this.socket = socket;
@@ -37,7 +42,7 @@ public class Handler extends Thread {
 
             // Create character streams for the socket.
             in = new BufferedReader(new InputStreamReader(
-                socket.getInputStream()));
+                socket.getInputStream(),StandardCharsets.UTF_8));
             out = new PrintWriter(socket.getOutputStream(), true);
 
             // Request a name from this client.  Keep requesting until
@@ -45,10 +50,14 @@ public class Handler extends Thread {
             // checking for the existence of a name and adding the name
             // must be done while locking the set of names.
             while (true) {
-                out.println("SUBMITNAME");
+                out.println("Wie heisst du?");
                 name = in.readLine();
+                System.out.println(name);
                 if (name == null) {
                     return;
+                }
+                if (names.contains(name)){
+                    out.println("So heisst schon jemand... ");
                 }
                 synchronized (names) {
                     if (!names.contains(name)) {
@@ -61,19 +70,18 @@ public class Handler extends Thread {
             // Now that a successful name has been chosen, add the
             // socket's print writer to the set of all writers so
             // this client can receive broadcast messages.
-            out.println("NAMEACCEPTED");
+            out.println("Alles klar "+name.substring(20)+", es kann losgehen!");
             writers.add(out);
+            for (PrintWriter writer : writers) {
+                writer.println(name.substring(20)+" erscheint.");
+            }
 
             // Accept messages from this client and broadcast them.
             // Ignore other clients that cannot be broadcasted to.
+
             while (true) {
-                String input = in.readLine();
-                if (input == null) {
-                    return;
-                }
-                for (PrintWriter writer : writers) {
-                    writer.println("MESSAGE " + name + ": " + input);
-                }
+                communicate();
+
             }
         } catch (IOException e) {
             System.out.println(e);
@@ -90,6 +98,26 @@ public class Handler extends Thread {
                 socket.close();
             } catch (IOException e) {
             }
+        }
+    }
+
+    public void communicate() {
+        try {
+            String line = in.readLine();
+            if (line.matches("(?i)sag .*")) {
+                for (PrintWriter writer : writers) {
+                    writer.println(name.substring(20) + " sagt: " + line.substring(3));
+                }
+            }
+            //if "b" is typed, the long description of the room is prompted.
+            else if (line.matches(("b"))) {
+                out.println(eingang.getKurz());
+                out.println(eingang.getLang());
+            }
+//                out.println(line);
+        } catch (IOException e) {
+            System.out.println("Reading failed (Main)");
+            System.exit(-1);
         }
     }
 }
