@@ -1,7 +1,6 @@
 package Server;
 
-import rooms.Cafeteria;
-import rooms.Hallway;
+import rooms.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,9 +12,11 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class Handler extends Thread {
 
+    private final static Logger log = Logger.getLogger(SocketServer.class.getName());
     private static HashSet<String> names = new HashSet<String>();
     private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
 
@@ -23,21 +24,24 @@ public class Handler extends Thread {
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
-    public Hallway eingang = new Hallway();
-    public Cafeteria cafe = new Cafeteria();
+    public static Hallway eingang = new Hallway();
+    public static Cafeteria cafe = new Cafeteria();
+    public static Park park = new Park();
+    public Room raum = new Room();
+
 
     public Handler(Socket socket) {
         this.socket = socket;
     }
 
     public void run() {
-        try {
 
+        try {
+            raum = cafe;
             // Create character streams for the socket.
             in = new BufferedReader(new InputStreamReader(
                 socket.getInputStream(), StandardCharsets.UTF_8));
             out = new PrintWriter(socket.getOutputStream(), true);
-
 
             while (true) {
 
@@ -77,9 +81,10 @@ public class Handler extends Thread {
                 writer.println(name.substring(20) + " erscheint.");
             }
 
-            // Accept messages from this client and broadcast them.
-
+            //After logging in, chat-method is initiated
             while (true) {
+
+                //after login clients always land in the cafe-room
                 communicate();
             }
         } catch (IOException e) {
@@ -87,7 +92,6 @@ public class Handler extends Thread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-
             //remove client if he closes the connection
             if (name != null) {
                 names.remove(name);
@@ -101,12 +105,14 @@ public class Handler extends Thread {
             try {
                 socket.close();
             } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
 
     // communication is managed in this method, currently working on regex
-    public void communicate() {
+    private void communicate() {
+
         try {
             String line = in.readLine();
             //for chatting with other clients syntax needs to be "sag sometext" which would then broadcast "sometext" to
@@ -117,18 +123,38 @@ public class Handler extends Thread {
                 }
             }
             //if "b" is typed, the long description of the room is prompted - only for the current client!
-            else if (line.matches(("b"))) {
-                out.println(eingang.getKurz());
-                out.println(eingang.getLang());
+            if (line.matches(("b"))) {
+
+                log.info(String.valueOf(raum));
+                out.println(raum.getKurz());
+                out.println(raum.getLang());
             }
+            //exits towards other rooms
+            if (line.matches(("n"))){
+                out.println(raum.getNorden());
+                raum = (raum.getExitNorden());
+            }
+            if (line.matches(("w"))){
+                out.println(raum.getWesten());
+                raum = (raum.getExitWesten());
+            }
+            if (line.matches(("s"))){
+                out.println(raum.getSueden());
+                raum = (raum.getExitSueden());
+            }
+            if (line.matches(("o"))){
+                out.println(raum.getOsten());
+                raum = (raum.getExitOsten());
+            }
+
         } catch (IOException e) {
             System.out.println("Reading failed (Main)");
             System.exit(-1);
         }
     }
 
-    //method to create Welcoming graphics at startup
-    public void graphics() {
+    //Method to display Ascii graphic to start the game
+    private void graphics() {
         int width = 80;
         int height = 10;
 
@@ -144,15 +170,11 @@ public class Handler extends Thread {
         for (int y = 0; y < height; y++) {
             StringBuilder sb = new StringBuilder();
             for (int x = 0; x < width; x++) {
-
                 sb.append(image.getRGB(x, y) == -16777216 ? " " : "$");
-
             }
-
             if (sb.toString().trim().isEmpty()) {
                 continue;
             }
-
             out.println(sb);
         }
         out.println();

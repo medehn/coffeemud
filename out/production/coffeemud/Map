@@ -1,0 +1,15 @@
+
+p--p--p
+|  |  |
+p--p--p
+|  |  |
+p--p--p--h--c
+
+p = Park
+f = Hallway
+c = Cafeteria
+
+Cafeteria --> Hallway
+Hallway --> Cafeteria
+Hallway --> Park
+Park

@@ -1,9 +1,10 @@
 package rooms;
 
-public class Canteen extends Room {
-    private String lang = "An einer langen Theke kann man hier Essen bestellen, mehrere Tische bieten" +
-        "Platz um das Essen gemuetlich zu verspeisen. Im Sueden befindet sich die Cafeteria.";
-    private String kurz = "Kantine";
+public class Park extends Room {
+    private String lang = "Du stehst im Park. Ein paar Sitzbaenke stehen verteilt, du kannst eine " +
+        "Runde spazieren gehen wenn du willst! Am suedoestlichen Ende des Parkes ist der Eingang" +
+        "zur Cafeteria.";
+    private String kurz = "Im Park";
 
 
     @Override
