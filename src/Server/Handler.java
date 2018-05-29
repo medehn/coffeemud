@@ -44,6 +44,7 @@ public class Handler extends Thread {
 
             while (true) {
                 //Graphic to start Mud
+                out.println("               WELCOME to the unique, fun, crazy and fascinating world of...");
                 graphics();
                 //sleep for delayed output
                 TimeUnit.MILLISECONDS.sleep(1000);
@@ -108,7 +109,6 @@ public class Handler extends Thread {
     // communication is managed in this method, currently working on regex
     private void communicate() throws IOException {
 
-
         //for chatting with other clients syntax needs to be "sag sometext" which would then broadcast "sometext" to
         //all users that have logged in, broadcast is transmitted to all rooms for now
         if (input.matches("(?i)sag .*")) {
@@ -117,12 +117,12 @@ public class Handler extends Thread {
             }
             //TODO create room-internal communication via list of registered users
         }
-        //if "b" is typed, the long description of the room is prompted - only for the current client!
+        //TODO change this to "common inputs, add "help" to display a list of commands
+        // if "b" is typed, the long description of the room is prompted - only for the current client!
         if (input.matches(("b"))) {
             out.println(currentRoom.getKurz());
             out.println(currentRoom.getLang());
             //TODO output list of clients that are in the room
-
         }
 
         if (input.matches(("wer"))) {
@@ -146,6 +146,8 @@ public class Handler extends Thread {
 
     //This method coordinates movements between rooms
     private void move() throws IOException {
+
+        //TODO add message for entering/leaving a room to show others
 
         //exits towards other rooms
         if (input.matches(("w"))) {
@@ -209,7 +211,7 @@ public class Handler extends Thread {
 
     //Method to display Ascii graphic to start the game
     private void graphics() {
-        int width = 80;
+        int width = 120;
         int height = 10;
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -219,7 +221,7 @@ public class Handler extends Thread {
         Graphics2D graphics = (Graphics2D) g;
         graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
             RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        graphics.drawString("Coffe Mud", 5, 10);
+        graphics.drawString("Coffee Mud", 5, 10);
 
         for (int y = 0; y < height; y++) {
             StringBuilder sb = new StringBuilder();
