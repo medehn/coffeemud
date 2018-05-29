@@ -1,46 +1,23 @@
 package rooms;
 
-import Server.Handler;
+import Server.roomHandler;
 
-public class Hallway extends Room{
+
+public class Hallway extends Room {
 
     private String lang = "Dies ist der Flur, im Osten befindet sich die Cafeteria.";
     private String kurz = "Flur";
     private String osten = "Du gehst nach Osten in die Cafeteria.";
     private String westen = "Du gehst nach Westen in den Park.";
-    private Room exitOsten = Handler.cafe;
-    private Room exitWesten = Handler.park;
 
-    @Override
-    public Room getExitWesten() {
-        return exitWesten;
+    public Room goOst() {
+        return roomHandler.getCafe();
     }
 
-    @Override
-    public String getWesten() {
-        return westen;
+    public Room goWest() {
+        return roomHandler.getPark();
     }
 
-    @Override
-    public void setWesten(String westen) {
-        this.westen = westen;
-    }
-
-    @Override
-    public void setExitWesten(Room exitWesten) {
-        this.exitWesten = exitWesten;
-    }
-
-
-    @Override
-    public Room getExitOsten() {
-        return exitOsten;
-    }
-
-    @Override
-    public void setExitOsten(Room exitOsten) {
-        this.exitOsten = exitOsten;
-    }
 
     @Override
     public String getLang() {
@@ -70,5 +47,15 @@ public class Hallway extends Room{
     @Override
     public void setOsten(String osten) {
         this.osten = osten;
+    }
+
+    @Override
+    public String getWesten() {
+        return westen;
+    }
+
+    @Override
+    public void setWesten(String westen) {
+        this.westen = westen;
     }
 }

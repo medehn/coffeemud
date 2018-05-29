@@ -1,6 +1,6 @@
 package rooms;
 
-import Server.Handler;
+import Server.roomHandler;
 
 public class Cafeteria extends Room {
 
@@ -10,7 +10,11 @@ public class Cafeteria extends Room {
 
     private String kurz = "Cafeteria";
     private String westen = "Du gehst nach Westen in den Flur.";
-    private Room exitWesten = Handler.eingang;
+
+
+    public Room goWest() {
+        return roomHandler.getEingang();
+    }
 
 
     @Override
@@ -33,19 +37,14 @@ public class Cafeteria extends Room {
         this.kurz = kurz;
     }
 
+    @Override
     public String getWesten() {
         return westen;
     }
 
+    @Override
     public void setWesten(String westen) {
         this.westen = westen;
     }
 
-    public Room getExitWesten() {
-        return exitWesten;
-    }
-
-    public void setExitWesten(Room exitWesten) {
-        this.exitWesten = exitWesten;
-    }
 }

@@ -1,7 +1,5 @@
 package Server;
 
-import rooms.*;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -21,15 +19,10 @@ public class Handler extends Thread {
     private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
 
     private String name;
+    private  String input;
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
-    public static Hallway eingang = new Hallway();
-    public static Cafeteria cafe = new Cafeteria();
-    public static Park park = new Park();
-    public Room raum = new Room();
-
-
     public Handler(Socket socket) {
         this.socket = socket;
     }
@@ -37,20 +30,18 @@ public class Handler extends Thread {
     public void run() {
 
         try {
-            raum = cafe;
+            //always enter in cafeteria
+            roomHandler.setRaum(roomHandler.getCafe());
             // Create character streams for the socket.
             in = new BufferedReader(new InputStreamReader(
                 socket.getInputStream(), StandardCharsets.UTF_8));
             out = new PrintWriter(socket.getOutputStream(), true);
 
             while (true) {
-
                 //Graphic to start Mud
                 graphics();
-
                 //sleep for delayed output
                 TimeUnit.MILLISECONDS.sleep(1000);
-
                 // Request a name from this client.  Keep requesting until
                 // a name is submitted that is not already used.  Note that
                 // checking for the existence of a name and adding the name
@@ -74,18 +65,16 @@ public class Handler extends Thread {
             // Now that a successful name has been chosen, add the
             // socket's print writer to the set of all writers so
             // this client can receive broadcast messages.
-
             out.println("Alles klar " + name.substring(20) + ", es kann losgehen!");
             writers.add(out);
             for (PrintWriter writer : writers) {
                 writer.println(name.substring(20) + " erscheint.");
             }
-
-            //After logging in, chat-method is initiated
+            //After logging in, chat-method and moving is initiated
             while (true) {
-
-                //after login clients always land in the cafe-room
+                input = in.readLine();
                 communicate();
+                move();
             }
         } catch (IOException e) {
             System.out.println(e);
@@ -111,48 +100,60 @@ public class Handler extends Thread {
     }
 
     // communication is managed in this method, currently working on regex
-    private void communicate() {
+    private void communicate() throws IOException {
 
-        try {
-            String line = in.readLine();
-            //for chatting with other clients syntax needs to be "sag sometext" which would then broadcast "sometext" to
-            //all users that have logged in
-            if (line.matches("(?i)sag .*")) {
-                for (PrintWriter writer : writers) {
-                    writer.println(name.substring(20) + " sagt: " + line.substring(3));
-                }
+        //for chatting with other clients syntax needs to be "sag sometext" which would then broadcast "sometext" to
+        //all users that have logged in
+        if (input.matches("(?i)sag .*")) {
+            for (PrintWriter writer : writers) {
+                writer.println(name.substring(20) + " sagt: " + input.substring(3));
             }
-            //if "b" is typed, the long description of the room is prompted - only for the current client!
-            if (line.matches(("b"))) {
-
-                log.info(String.valueOf(raum));
-                out.println(raum.getKurz());
-                out.println(raum.getLang());
-            }
-            //exits towards other rooms
-            if (line.matches(("n"))){
-                out.println(raum.getNorden());
-                raum = (raum.getExitNorden());
-            }
-            if (line.matches(("w"))){
-                out.println(raum.getWesten());
-                raum = (raum.getExitWesten());
-            }
-            if (line.matches(("s"))){
-                out.println(raum.getSueden());
-                raum = (raum.getExitSueden());
-            }
-            if (line.matches(("o"))){
-                out.println(raum.getOsten());
-                raum = (raum.getExitOsten());
-            }
-
-        } catch (IOException e) {
-            System.out.println("Reading failed (Main)");
-            System.exit(-1);
         }
+        //if "b" is typed, the long description of the room is prompted - only for the current client!
+        if (input.matches(("b"))) {
+            log.info(String.valueOf(roomHandler.getRaum()));
+            out.println(roomHandler.getRaum().getKurz());
+            out.println(roomHandler.getRaum().getLang());
+        }
+
     }
 
+    private void move() throws IOException {
+
+        //exits towards other rooms
+        if (input.matches(("w"))) {
+            out.println(roomHandler.getRaum().getWesten());
+            roomHandler.setRaum(roomHandler.getRaum().goWest());
+        }
+
+        if (input.matches(("o"))) {
+            out.println(roomHandler.getRaum().getOsten());
+            roomHandler.setRaum(roomHandler.getRaum().goOst());
+
+        }
+
+/*        if (input.matches(("w"))){
+            out.println(raum.getWesten());
+            if(raum!=null){raum = (raum.getExitWesten());}
+        }
+        if (input.matches(("o"))){
+            out.println(raum.getOsten());
+            if(raum.getOsten()!=null)
+            {raum = (raum.getExitOsten());
+            } else {
+                raum = raum.getHere;
+            }
+        }
+        if (input.matches(("s"))){
+            out.println(raum.getSueden());
+            raum = (raum.getExitSueden());
+        }
+        if (input.matches(("n"))){
+            out.println(raum.getNorden());
+            raum = (raum.getExitNorden());
+        }
+    }*/
+    }
     //Method to display Ascii graphic to start the game
     private void graphics() {
         int width = 80;

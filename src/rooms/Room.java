@@ -2,9 +2,10 @@ package rooms;
 
 //Default Room Object to inherit
 
-import Server.Handler;
+import Server.roomHandler;
 
 public class Room {
+
 
     private String lang = "Du stehst mitten im Nirgendwo - da ist wohl was schiefgegangen!";
     private String kurz = "Nirwana";
@@ -13,12 +14,26 @@ public class Room {
     private String osten = "Hier kommst du nicht weiter.";
     private String norden = "Hier kommst du nicht weiter.";
     private String sueden = "Hier kommst du nicht weiter.";
-    private Room exitWesten = null;
-    private Room exitOsten = null;
-    private Room exitSueden = null;
-    private Room exitNorden = null;
+    private Room exitWesten = roomHandler.getRaum();
+    private Room exitOsten = roomHandler.getRaum();
+    private Room exitSueden = roomHandler.getRaum();
+    private Room exitNorden = roomHandler.getRaum();
+    public Room getHere = roomHandler.getRaum();
 
     boolean licht = true;
+
+    public Room goWest(){
+        return exitWesten;
+    };
+    public Room goOst(){
+        return exitOsten;
+    };
+    public Room goSud(){
+        return exitSueden;
+    };
+    public Room goNord(){
+        return exitNorden;
+    };
 
     public void setLang(String lang) {
         this.lang = lang;
