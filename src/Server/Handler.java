@@ -1,5 +1,7 @@
 package Server;
 
+import rooms.Room;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -18,7 +20,7 @@ public class Handler extends Thread {
     private static HashSet<String> names = new HashSet<String>();
     private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
 
-    private String name;
+    public String name;
     private String input;
     private Socket socket;
     private BufferedReader in;
@@ -28,11 +30,13 @@ public class Handler extends Thread {
         this.socket = socket;
     }
 
+    private Room currentRoom;
+
     public void run() {
 
         try {
             //always enter in cafeteria
-            roomHandler.setRaum(roomHandler.getCafe());
+            currentRoom = roomHandler.getCafe();
             // Create character streams for the socket.
             in = new BufferedReader(new InputStreamReader(
                 socket.getInputStream(), StandardCharsets.UTF_8));
@@ -76,6 +80,7 @@ public class Handler extends Thread {
                 input = in.readLine();
                 communicate();
                 move();
+                raetsel();
             }
         } catch (IOException e) {
             System.out.println(e);
@@ -103,25 +108,40 @@ public class Handler extends Thread {
     // communication is managed in this method, currently working on regex
     private void communicate() throws IOException {
 
+
         //for chatting with other clients syntax needs to be "sag sometext" which would then broadcast "sometext" to
         //all users that have logged in, broadcast is transmitted to all rooms for now
         if (input.matches("(?i)sag .*")) {
             for (PrintWriter writer : writers) {
                 writer.println(name.substring(20) + " sagt: " + input.substring(3));
             }
+            //TODO create room-internal communication via list of registered users
         }
         //if "b" is typed, the long description of the room is prompted - only for the current client!
         if (input.matches(("b"))) {
-            out.println(roomHandler.getRaum().getKurz());
-            out.println(roomHandler.getRaum().getLang());
+            out.println(currentRoom.getKurz());
+            out.println(currentRoom.getLang());
+            //TODO output list of clients that are in the room
+
         }
 
-        if(input.matches(("wer"))){
+        if (input.matches(("wer"))) {
 
             out.println("Momentan sind eingeloggt:");
-            for (String name : names) out.println(name.substring(20));
+            for (String name : names) {
+                out.println(name.substring(20));
+            }
         }
+    }
 
+    //TODO migrate this part to the room where it happens
+    private void raetsel() {
+        if (currentRoom == roomHandler.getCafe()) {
+            if (input.matches("b Kaffeemaschine")) {
+                out.println(roomHandler.getCafe().kaffee());
+            }
+
+        }
     }
 
     //This method coordinates movements between rooms
@@ -129,41 +149,63 @@ public class Handler extends Thread {
 
         //exits towards other rooms
         if (input.matches(("w"))) {
-            if (roomHandler.getRaum().goWest() != null) {
-                out.println(roomHandler.getRaum().getWesten());
-                roomHandler.setRaum(roomHandler.getRaum().goWest());
+            //if there is an exit west
+            if (currentRoom.goWest() != null) {
+                //print the movement-msg
+                out.println(currentRoom.getWesten());
+                //set the current room to the room that is west of the last
+                currentRoom.unregister(this);
+                currentRoom = currentRoom.goWest();
+                //print room description
+                out.println(currentRoom.getKurz());
+                out.println(currentRoom.getLang());
+                //registering to a list of clients held by the room and creating a list of present clients
+                out.println(currentRoom.register(this));
+                //if there is no exit:
             } else {
                 out.println("Da geht es nicht weiter.");
             }
         }
 
         if (input.matches(("o"))) {
-            if (roomHandler.getRaum().goOst() != null) {
-                out.println(roomHandler.getRaum().getOsten());
-                roomHandler.setRaum(roomHandler.getRaum().goOst());
+            if (currentRoom.goOst() != null) {
+                out.println(currentRoom.getOsten());
+                currentRoom.unregister(this);
+                currentRoom = currentRoom.goOst();
+                out.println(currentRoom.getKurz());
+                out.println(currentRoom.getLang());
+                out.println(currentRoom.register(this));
             } else {
                 out.println("Da geht es nicht weiter.");
             }
         }
 
         if (input.matches(("s"))) {
-            if (roomHandler.getRaum().goSud() != null) {
-                out.println(roomHandler.getRaum().getSueden());
-                roomHandler.setRaum(roomHandler.getRaum().goSud());
+            if (currentRoom.goSud() != null) {
+                out.println(currentRoom.getSueden());
+                currentRoom.unregister(this);
+                currentRoom = currentRoom.goSud();
+                out.println(currentRoom.getKurz());
+                out.println(currentRoom.getLang());
+                out.println(currentRoom.register(this));
             } else {
                 out.println("Da geht es nicht weiter.");
             }
         }
 
         if (input.matches(("n"))) {
-            if (roomHandler.getRaum().goNord() != null){
-                out.println(roomHandler.getRaum().getNorden());
-            roomHandler.setRaum(roomHandler.getRaum().goNord());
-        } else {
-            out.println("Da geht es nicht weiter.");
+            if (currentRoom.goNord() != null) {
+                out.println(currentRoom.getNorden());
+                currentRoom.unregister(this);
+                currentRoom = currentRoom.goNord();
+                out.println(currentRoom.getKurz());
+                out.println(currentRoom.getLang());
+                out.println(currentRoom.register(this));
+            } else {
+                out.println("Da geht es nicht weiter.");
+            }
         }
     }
-}
 
     //Method to display Ascii graphic to start the game
     private void graphics() {

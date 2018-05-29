@@ -2,7 +2,10 @@ package rooms;
 
 //Default Room Object to inherit
 
-import Server.roomHandler;
+import Server.Handler;
+import objects.BasisObject;
+
+import java.util.ArrayList;
 
 public class Room {
 
@@ -14,26 +17,49 @@ public class Room {
     private String norden = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
     private String sueden = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
 
-    private Room exitWesten = roomHandler.getRaum();
-    private Room exitOsten = roomHandler.getRaum();
-    private Room exitSueden = roomHandler.getRaum();
-    private Room exitNorden = roomHandler.getRaum();
-    public Room getHere = roomHandler.getRaum();
+    public ArrayList<Handler> clients = new ArrayList<Handler>();
+    public ArrayList<BasisObject> items = new ArrayList<BasisObject>();
+
+    public String register(Handler handler){
+        clients.add(handler);
+        String clientList = "";
+        Handler first = clients.get(0);
+        clientList = "In diesem Raum befinden sich: "+first.name.substring(20);
+        for (int i=1; i<clients.size(); i++){
+            clientList = clients.get(i).name.substring(20)+", "+clientList;
+        }
+        return clientList;
+    }
+
+    public void unregister(Handler handler){
+        clients.remove(handler);
+    }
 
     boolean licht = true;
 
-    public Room goWest(){
-        return exitWesten;
-    };
-    public Room goOst(){
-        return exitOsten;
-    };
-    public Room goSud(){
-        return exitSueden;
-    };
-    public Room goNord(){
-        return exitNorden;
-    };
+    public Room goWest() {
+        return null;
+    }
+
+    ;
+
+    public Room goOst() {
+        return null;
+    }
+
+    ;
+
+    public Room goSud() {
+        return null;
+    }
+
+    ;
+
+    public Room goNord() {
+        return null;
+    }
+
+    ;
 
     public void setLang(String lang) {
         this.lang = lang;
@@ -44,7 +70,7 @@ public class Room {
     }
 
     public void setKurz(String kurz) {
-        this.kurz=kurz;
+        this.kurz = kurz;
     }
 
     public String getKurz() {
@@ -84,35 +110,4 @@ public class Room {
         this.sueden = sueden;
     }
 
-    public Room getExitWesten() {
-        return exitWesten;
-    }
-
-    public void setExitWesten(Room exitWesten) {
-        this.exitWesten = exitWesten;
-    }
-
-    public Room getExitOsten() {
-        return exitOsten;
-    }
-
-    public void setExitOsten(Room exitOsten) {
-        this.exitOsten = exitOsten;
-    }
-
-    public Room getExitSueden() {
-        return exitSueden;
-    }
-
-    public void setExitSueden(Room exitSueden) {
-        this.exitSueden = exitSueden;
-    }
-
-    public Room getExitNorden() {
-        return exitNorden;
-    }
-
-    public void setExitNorden(Room exitNorden) {
-        this.exitNorden = exitNorden;
-    }
 }
