@@ -3,10 +3,9 @@ package Server;
 import java.net.ServerSocket;
 import java.util.logging.Logger;
 
-
 public class SocketServer extends Thread {
 
-    private final static Logger log = Logger.getLogger(SocketServer.class.getName());
+//    private final static Logger log = Logger.getLogger(SocketServer.class.getName());
 
     public static void main(String[] args) throws Exception {
         System.out.println("The server is running.");

@@ -9,7 +9,6 @@ public class Room {
 
     boolean licht = true;
 
-
     public void setLang(String lang) {
         this.lang = lang;
     }

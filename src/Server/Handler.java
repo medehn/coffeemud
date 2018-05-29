@@ -3,6 +3,8 @@ package Server;
 import rooms.Cafeteria;
 import rooms.Hallway;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,6 +12,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
+import java.util.concurrent.TimeUnit;
 
 public class Handler extends Thread {
 
@@ -27,33 +30,34 @@ public class Handler extends Thread {
         this.socket = socket;
     }
 
-    /**
-     * Services this thread's client by repeatedly requesting a
-     * screen name until a unique one has been submitted, then
-     * acknowledges the name and registers the output stream for
-     * the client in a global set, then repeatedly gets inputs and
-     * broadcasts them.
-     */
     public void run() {
         try {
 
             // Create character streams for the socket.
             in = new BufferedReader(new InputStreamReader(
-                socket.getInputStream(),StandardCharsets.UTF_8));
+                socket.getInputStream(), StandardCharsets.UTF_8));
             out = new PrintWriter(socket.getOutputStream(), true);
 
-            // Request a name from this client.  Keep requesting until
-            // a name is submitted that is not already used.  Note that
-            // checking for the existence of a name and adding the name
-            // must be done while locking the set of names.
+
             while (true) {
+
+                //Graphic to start Mud
+                graphics();
+
+                //sleep for delayed output
+                TimeUnit.MILLISECONDS.sleep(1000);
+
+                // Request a name from this client.  Keep requesting until
+                // a name is submitted that is not already used.  Note that
+                // checking for the existence of a name and adding the name
+                // must be done while locking the set of names.
                 out.println("Wie heisst du?");
                 name = in.readLine();
                 System.out.println(name);
                 if (name == null) {
                     return;
                 }
-                if (names.contains(name)){
+                if (names.contains(name)) {
                     out.println("So heisst schon jemand... ");
                 }
                 synchronized (names) {
@@ -63,31 +67,28 @@ public class Handler extends Thread {
                     }
                 }
             }
-
             // Now that a successful name has been chosen, add the
             // socket's print writer to the set of all writers so
             // this client can receive broadcast messages.
 
-            out.println("Alles klar "+name.substring(20)+", es kann losgehen!");
+            out.println("Alles klar " + name.substring(20) + ", es kann losgehen!");
             writers.add(out);
             for (PrintWriter writer : writers) {
-                writer.println(name.substring(20)+" erscheint.");
+                writer.println(name.substring(20) + " erscheint.");
             }
 
             // Accept messages from this client and broadcast them.
-            // Ignore other clients that cannot be broadcasted to.
 
             while (true) {
                 communicate();
-
             }
         } catch (IOException e) {
             System.out.println(e);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } finally {
 
-            // This client is going down!  Remove its name and its print
-            // writer from the sets, and close its socket.
-
+            //remove client if he closes the connection
             if (name != null) {
                 names.remove(name);
                 for (PrintWriter writer : writers) {
@@ -104,24 +105,57 @@ public class Handler extends Thread {
         }
     }
 
+    // communication is managed in this method, currently working on regex
     public void communicate() {
         try {
             String line = in.readLine();
+            //for chatting with other clients syntax needs to be "sag sometext" which would then broadcast "sometext" to
+            //all users that have logged in
             if (line.matches("(?i)sag .*")) {
                 for (PrintWriter writer : writers) {
                     writer.println(name.substring(20) + " sagt: " + line.substring(3));
                 }
             }
-            //if "b" is typed, the long description of the room is prompted.
+            //if "b" is typed, the long description of the room is prompted - only for the current client!
             else if (line.matches(("b"))) {
                 out.println(eingang.getKurz());
                 out.println(eingang.getLang());
             }
-//                out.println(line);
         } catch (IOException e) {
             System.out.println("Reading failed (Main)");
             System.exit(-1);
         }
+    }
+
+    //method to create Welcoming graphics at startup
+    public void graphics() {
+        int width = 80;
+        int height = 10;
+
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics g = image.getGraphics();
+        g.setFont(new Font("Arial", Font.BOLD, 14));
+
+        Graphics2D graphics = (Graphics2D) g;
+        graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+            RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        graphics.drawString("Coffe Mud", 5, 10);
+
+        for (int y = 0; y < height; y++) {
+            StringBuilder sb = new StringBuilder();
+            for (int x = 0; x < width; x++) {
+
+                sb.append(image.getRGB(x, y) == -16777216 ? " " : "$");
+
+            }
+
+            if (sb.toString().trim().isEmpty()) {
+                continue;
+            }
+
+            out.println(sb);
+        }
+        out.println();
     }
 }
 
