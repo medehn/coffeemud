@@ -16,7 +16,7 @@ public class Hallway extends Room {
     }
 
     public Room goWest() {
-        return roomHandler.getPark();
+        return roomHandler.getParkExit();
     }
 
 

@@ -1,15 +1,16 @@
 
-p--p--p
-|  |  |
-p--p--p
-|  |  |
-p--p--p--h--c
+KARTE:
+
+p--p
+|  |
+p--p--h--c
 
 p = Park
 f = Hallway
 c = Cafeteria
 
-Cafeteria --> Hallway
-Hallway --> Cafeteria
-Hallway --> Park
-Park
+Befehle:
+b = betrachte deine Umgebung
+sag TEXT = sende TEXT als Chat-Mitteilung an alle eingeloggten User
+wer = Liste der momentan eingeloggten User
+n,o,s,w = Norden, Osten, Süden, Westen - mit jeweils einem Befehl bewegst du dich in die jeweilige Richtung

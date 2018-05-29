@@ -9,10 +9,10 @@ public class Room {
     private String lang = "Du stehst mitten im Nirgendwo - da ist wohl was schiefgegangen!";
     private String kurz = "Nirwana";
 
-    private String westen = "Hier kommst du nicht weiter.";
-    private String osten = "Hier kommst du nicht weiter.";
-    private String norden = "Hier kommst du nicht weiter.";
-    private String sueden = "Hier kommst du nicht weiter.";
+    private String westen = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
+    private String osten = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
+    private String norden = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
+    private String sueden = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
 
     private Room exitWesten = roomHandler.getRaum();
     private Room exitOsten = roomHandler.getRaum();

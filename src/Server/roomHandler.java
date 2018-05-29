@@ -1,15 +1,14 @@
 package Server;
 
-import rooms.Cafeteria;
-import rooms.Hallway;
-import rooms.Park;
-import rooms.Room;
+import rooms.*;
 
 public class roomHandler {
     private static Hallway eingang = new Hallway();
     private static Cafeteria cafe = new Cafeteria();
-    private static Park park = new Park();
     private static Room raum = new Room();
+    private static ParkLab parkLab = new ParkLab();
+    private static ParkExit parkExit = new ParkExit();
+
 
     public static Hallway getEingang() {
         return eingang;
@@ -27,19 +26,28 @@ public class roomHandler {
         roomHandler.cafe = cafe;
     }
 
-    public static Park getPark() {
-        return park;
-    }
-
-    public static void setPark(Park park) {
-        roomHandler.park = park;
-    }
-
     public static Room getRaum() {
         return raum;
     }
 
     public static void setRaum(Room raum) {
         roomHandler.raum = raum;
+    }
+
+
+    public static ParkLab getParkLab() {
+        return parkLab;
+    }
+
+    public static void setParkLab(ParkLab parkLab) {
+        roomHandler.parkLab = parkLab;
+    }
+
+    public static ParkExit getParkExit() {
+        return parkExit;
+    }
+
+    public static void setParkExit(ParkExit parkExit) {
+        roomHandler.parkExit = parkExit;
     }
 }
