@@ -6,7 +6,6 @@ import Server.roomHandler;
 
 public class Room {
 
-
     private String lang = "Du stehst mitten im Nirgendwo - da ist wohl was schiefgegangen!";
     private String kurz = "Nirwana";
 
@@ -14,6 +13,7 @@ public class Room {
     private String osten = "Hier kommst du nicht weiter.";
     private String norden = "Hier kommst du nicht weiter.";
     private String sueden = "Hier kommst du nicht weiter.";
+
     private Room exitWesten = roomHandler.getRaum();
     private Room exitOsten = roomHandler.getRaum();
     private Room exitSueden = roomHandler.getRaum();

@@ -5,7 +5,8 @@ import Server.roomHandler;
 
 public class Hallway extends Room {
 
-    private String lang = "Dies ist der Flur, im Osten befindet sich die Cafeteria.";
+    private String lang = "Dies ist der Flur, im Osten befindet sich die Cafeteria und im Westen geht es " +
+        "nach draussen in den Park.";
     private String kurz = "Flur";
     private String osten = "Du gehst nach Osten in die Cafeteria.";
     private String westen = "Du gehst nach Westen in den Park.";

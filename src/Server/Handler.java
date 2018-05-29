@@ -19,10 +19,11 @@ public class Handler extends Thread {
     private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
 
     private String name;
-    private  String input;
+    private String input;
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
+
     public Handler(Socket socket) {
         this.socket = socket;
     }
@@ -68,7 +69,7 @@ public class Handler extends Thread {
             out.println("Alles klar " + name.substring(20) + ", es kann losgehen!");
             writers.add(out);
             for (PrintWriter writer : writers) {
-                writer.println(name.substring(20) + " erscheint.");
+                writer.println(name.substring(20) + " hat sich soeben eingeloggt.");
             }
             //After logging in, chat-method and moving is initiated
             while (true) {
@@ -85,7 +86,7 @@ public class Handler extends Thread {
             if (name != null) {
                 names.remove(name);
                 for (PrintWriter writer : writers) {
-                    writer.println(name.substring(20) + " verschwindet.");
+                    writer.println(name.substring(20) + " hat die Verbindung soeben getrennt.");
                 }
             }
             if (out != null) {
@@ -103,7 +104,7 @@ public class Handler extends Thread {
     private void communicate() throws IOException {
 
         //for chatting with other clients syntax needs to be "sag sometext" which would then broadcast "sometext" to
-        //all users that have logged in
+        //all users that have logged in, broadcast is transmitted to all rooms for now
         if (input.matches("(?i)sag .*")) {
             for (PrintWriter writer : writers) {
                 writer.println(name.substring(20) + " sagt: " + input.substring(3));
@@ -111,49 +112,59 @@ public class Handler extends Thread {
         }
         //if "b" is typed, the long description of the room is prompted - only for the current client!
         if (input.matches(("b"))) {
-            log.info(String.valueOf(roomHandler.getRaum()));
             out.println(roomHandler.getRaum().getKurz());
             out.println(roomHandler.getRaum().getLang());
         }
 
+        if(input.matches(("wer"))){
+
+            out.println("Momentan sind eingeloggt:");
+            for (String name : names) out.println(name.substring(20));
+        }
+
     }
 
+    //This method coordinates movements between rooms
     private void move() throws IOException {
 
         //exits towards other rooms
         if (input.matches(("w"))) {
-            out.println(roomHandler.getRaum().getWesten());
-            roomHandler.setRaum(roomHandler.getRaum().goWest());
+            if (roomHandler.getRaum().goWest() != null) {
+                out.println(roomHandler.getRaum().getWesten());
+                roomHandler.setRaum(roomHandler.getRaum().goWest());
+            } else {
+                out.println("Da geht es nicht weiter.");
+            }
         }
 
         if (input.matches(("o"))) {
-            out.println(roomHandler.getRaum().getOsten());
-            roomHandler.setRaum(roomHandler.getRaum().goOst());
-
-        }
-
-/*        if (input.matches(("w"))){
-            out.println(raum.getWesten());
-            if(raum!=null){raum = (raum.getExitWesten());}
-        }
-        if (input.matches(("o"))){
-            out.println(raum.getOsten());
-            if(raum.getOsten()!=null)
-            {raum = (raum.getExitOsten());
+            if (roomHandler.getRaum().goOst() != null) {
+                out.println(roomHandler.getRaum().getOsten());
+                roomHandler.setRaum(roomHandler.getRaum().goOst());
             } else {
-                raum = raum.getHere;
+                out.println("Da geht es nicht weiter.");
             }
         }
-        if (input.matches(("s"))){
-            out.println(raum.getSueden());
-            raum = (raum.getExitSueden());
+
+        if (input.matches(("s"))) {
+            if (roomHandler.getRaum().goSud() != null) {
+                out.println(roomHandler.getRaum().getSueden());
+                roomHandler.setRaum(roomHandler.getRaum().goSud());
+            } else {
+                out.println("Da geht es nicht weiter.");
+            }
         }
-        if (input.matches(("n"))){
-            out.println(raum.getNorden());
-            raum = (raum.getExitNorden());
+
+        if (input.matches(("n"))) {
+            if (roomHandler.getRaum().goNord() != null){
+                out.println(roomHandler.getRaum().getNorden());
+            roomHandler.setRaum(roomHandler.getRaum().goNord());
+        } else {
+            out.println("Da geht es nicht weiter.");
         }
-    }*/
     }
+}
+
     //Method to display Ascii graphic to start the game
     private void graphics() {
         int width = 80;
