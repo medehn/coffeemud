@@ -1,6 +1,7 @@
 package objects;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class BasisObject {
@@ -13,7 +14,13 @@ public class BasisObject {
     private boolean alive;
     private int weight;
 
+    HashMap<String,String> items = new HashMap<String,String>();
+    public void itemList(){
+    }
 
+    public String details() {
+        return "Da ist was schiefgegangen.";
+    }
 
     public String getLang() {
         return lang;

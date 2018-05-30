@@ -79,9 +79,11 @@ public class Handler extends Thread {
             //After logging in, chat-method and moving is initiated
             while (true) {
                 input = in.readLine();
+
                 communicate();
                 move();
-                raetsel();
+                commonInput();
+
             }
         } catch (IOException e) {
             System.out.println(e);
@@ -117,32 +119,48 @@ public class Handler extends Thread {
             }
             //TODO create room-internal communication via list of registered users
         }
-        //TODO change this to "common inputs, add "help" to display a list of commands
+    }
+
+    private void commonInput() {
+        currentRoom.roomObjects();
         // if "b" is typed, the long description of the room is prompted - only for the current client!
         if (input.matches(("b"))) {
             out.println(currentRoom.getKurz());
             out.println(currentRoom.getLang());
-            //TODO output list of clients that are in the room
+            out.println(currentRoom.clientlist());
         }
 
-        if (input.matches(("wer"))) {
+        // who-List
+        else if (input.matches(("wer"))) {
 
             out.println("Momentan sind eingeloggt:");
             for (String name : names) {
                 out.println(name.substring(20));
             }
         }
-    }
 
-    //TODO migrate this part to the room where it happens
-    private void raetsel() {
-        if (currentRoom == roomHandler.getCafe()) {
-            if (input.matches("b Kaffeemaschine")) {
-                out.println(roomHandler.getCafe().kaffee());
-            }
+        //TODO output formatieren
+        else if (input.matches(("hilfe"))) {
+            out.println(
+                "Liste der Kommandos:" +
+                    "b = betrachte deine Umgebung." +
+                    "sag TEXT = sende TEXT als Chat-Mitteilung an alle eingeloggten User." +
+                    "wer = Liste der momentan eingeloggten User" +
+                    "n,o,s,w = Norden, Osten, Süden, Westen - mit jeweils einem Befehl bewegst du dich in die " +
+                    "jeweilige Richtung");
 
         }
+        if (input.matches("b kaffeemaschine")) {
+            String key = input.substring(2);
+            System.out.println("key " + key);
+            out.println(currentRoom.getItems(key));
+        }
+
     }
+
+
+
+
 
     //This method coordinates movements between rooms
     private void move() throws IOException {
@@ -209,19 +227,20 @@ public class Handler extends Thread {
         }
     }
 
+
     //Method to display Ascii graphic to start the game
     private void graphics() {
-        int width = 120;
+        int width = 80;
         int height = 10;
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics g = image.getGraphics();
-        g.setFont(new Font("Arial", Font.BOLD, 14));
+        g.setFont(new Font("Arial", Font.BOLD, 12));
 
         Graphics2D graphics = (Graphics2D) g;
         graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
             RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        graphics.drawString("Coffee Mud", 5, 10);
+        graphics.drawString("Coffee Mud", 1, 10);
 
         for (int y = 0; y < height; y++) {
             StringBuilder sb = new StringBuilder();

@@ -10,9 +10,6 @@ public class roomHandler {
     private static ParkLab parkLab = new ParkLab();
     private static ParkExit parkExit = new ParkExit();
 
-
-
-
     public static Hallway getEingang() {
         return eingang;
     }

@@ -6,6 +6,7 @@ import Server.Handler;
 import objects.BasisObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Room {
 
@@ -18,20 +19,38 @@ public class Room {
     private String sueden = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
 
     public ArrayList<Handler> clients = new ArrayList<Handler>();
-    public ArrayList<BasisObject> items = new ArrayList<BasisObject>();
-
-    public String register(Handler handler){
+    public HashMap<String, BasisObject> roomItems = new HashMap<>();
+    public String register(Handler handler) {
         clients.add(handler);
         String clientList = "";
         Handler first = clients.get(0);
-        clientList = "In diesem Raum befinden sich: "+first.name.substring(20);
-        for (int i=1; i<clients.size(); i++){
-            clientList = clients.get(i).name.substring(20)+", "+clientList;
+        clientList = "In diesem Raum befinden sich: " + first.name.substring(20);
+        for (int i = 1; i < clients.size(); i++) {
+            clientList = clients.get(i).name.substring(20) + ", " + clientList;
         }
         return clientList;
     }
 
-    public void unregister(Handler handler){
+    public String clientlist() {
+        String clientList = null;
+
+        if (clientList == null) {
+            return "Nur du befindest dich in diesem Raum.";
+        } else {
+            Handler first = clients.get(0);
+            clientList = "In diesem Raum befinden sich: " + first.name.substring(20);
+            for (int i = 1; i < clients.size(); i++) {
+                clientList = clients.get(i).name.substring(20) + ", " + clientList;
+            }
+            return clientList;
+        }
+    }
+    public String getItems (String i){
+        return "Das hat nicht funktioniert.";
+    };
+    public void roomObjects(){}
+
+    public void unregister(Handler handler) {
         clients.remove(handler);
     }
 

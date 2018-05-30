@@ -1,7 +1,11 @@
 package rooms;
 
 import Server.roomHandler;
+import objects.BasisObject;
 import objects.CoffeeMachine;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Cafeteria extends Room {
 
@@ -11,22 +15,29 @@ public class Cafeteria extends Room {
 
     private String kurz = "Cafeteria";
     private String westen = "Du gehst nach Westen in den Flur.";
+    public CoffeeMachine kaffeemaschine = new CoffeeMachine();
 
-    public CoffeeMachine kaffeeMaschine = new CoffeeMachine();
+    public HashMap<String, BasisObject> roomItems = new HashMap<>();
 
-    //TODO add more items, iterate over via handler to use and look etc
-    public void items(){
-        items.add(kaffeeMaschine);
+    public void roomObjects(){
+        roomItems.put("kaffeemaschine",kaffeemaschine);;
     }
+
+    public String getItems(String i){
+         return roomItems.get(i).getLang();
+    }
+
+
+    public String details(){
+            return kaffeemaschine.getKurz();
+        }
+
 
     public Room goWest() {
         return roomHandler.getEingang();
     }
 
-    public String kaffee(){
 
-        return kaffeeMaschine.getLang();
-    }
 
     @Override
     public String getLang() {

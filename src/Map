@@ -14,3 +14,16 @@ b = betrachte deine Umgebung
 sag TEXT = sende TEXT als Chat-Mitteilung an alle eingeloggten User
 wer = Liste der momentan eingeloggten User
 n,o,s,w = Norden, Osten, Süden, Westen - mit jeweils einem Befehl bewegst du dich in die jeweilige Richtung
+
+
+        currentRoom.items();
+        currentRoom.starteDetails();
+
+            public void startDetails(){
+                for(int i=0; i<items.size(); i++){
+                    items.get(i).itemList();
+                }
+
+            }
+
+            currentRoom.roomItems.containsKey(input.substring(2))
