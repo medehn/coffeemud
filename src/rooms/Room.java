@@ -22,27 +22,22 @@ public class Room {
     public ArrayList<Handler> clients = new ArrayList<Handler>();
 
 
-    public String register(Handler handler) {
+    public void register(Handler handler) {
         clients.add(handler);
-        String clientList = "";
-        Handler first = clients.get(0);
-        clientList = "In diesem Raum befinden sich: " + first.name.substring(20);
-        for (int i = 1; i < clients.size(); i++) {
-            clientList = clientList+", "+clients.get(i).name.substring(20) + ", ";
-        }
-        return clientList;
+        clientsInRoom();
+
     }
 
     public String clientsInRoom() {
 
-        if (clients.isEmpty()) {
+        if (clients.size()==1) {
             return "Nur du befindest dich in diesem Raum.";
         }else{
         String clientList = "";
         Handler first = clients.get(0);
         clientList = "In diesem Raum befinden sich: " + first.name.substring(20);
         for (int i = 1; i < clients.size(); i++) {
-            clientList = clientList+", "+clients.get(i).name.substring(20) + ", ";
+            clientList = clientList+", "+clients.get(i).name.substring(20);
         }
         return clientList;
     }}

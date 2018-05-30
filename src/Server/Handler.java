@@ -65,9 +65,11 @@ public class Handler extends Thread {
                 if (names.contains(name)) {
                     out.println("So heisst schon jemand... ");
                 }
+                
                 synchronized (names) {
                     if (!names.contains(name)) {
                         names.add(name);
+                        
                         break;
                     }
                 }
@@ -77,6 +79,7 @@ public class Handler extends Thread {
             // this client can receive broadcast messages.
             out.println("Alles klar " + name.substring(20) + ", es kann losgehen!");
             writers.add(out);
+            currentRoom.register(this);
             for (PrintWriter writer : writers) {
                 writer.println(name.substring(20) + " hat sich soeben eingeloggt.");
             }
@@ -183,7 +186,8 @@ public class Handler extends Thread {
                 out.println(currentRoom.getKurz());
                 out.println(currentRoom.getLang());
                 //registering to a list of clients held by the room and creating a list of present clients
-                out.println(currentRoom.register(this));
+                currentRoom.register(this);
+                out.println(currentRoom.clientsInRoom());
                 //if there is no exit:
             } else {
                 out.println("Da geht es nicht weiter.");
@@ -197,7 +201,8 @@ public class Handler extends Thread {
                 currentRoom = currentRoom.goOst();
                 out.println(currentRoom.getKurz());
                 out.println(currentRoom.getLang());
-                out.println(currentRoom.register(this));
+                currentRoom.register(this);
+                out.println(currentRoom.clientsInRoom());
             } else {
                 out.println("Da geht es nicht weiter.");
             }
@@ -210,7 +215,8 @@ public class Handler extends Thread {
                 currentRoom = currentRoom.goSud();
                 out.println(currentRoom.getKurz());
                 out.println(currentRoom.getLang());
-                out.println(currentRoom.register(this));
+                currentRoom.register(this);
+                out.println(currentRoom.clientsInRoom());
             } else {
                 out.println("Da geht es nicht weiter.");
             }
@@ -223,7 +229,8 @@ public class Handler extends Thread {
                 currentRoom = currentRoom.goNord();
                 out.println(currentRoom.getKurz());
                 out.println(currentRoom.getLang());
-                out.println(currentRoom.register(this));
+                currentRoom.register(this);
+                out.println(currentRoom.clientsInRoom());
             } else {
                 out.println("Da geht es nicht weiter.");
             }
