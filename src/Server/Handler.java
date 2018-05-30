@@ -34,7 +34,7 @@ public class Handler extends Thread {
     public void run() {
         try {
             //always enter in cafeteria
-            currentRoom = roomHandler.getCafe();
+            currentRoom = roomHandler.getEingang();
             // Create character streams for the socket.
             in = new BufferedReader(new InputStreamReader(
                 socket.getInputStream(), StandardCharsets.UTF_8));
@@ -117,6 +117,7 @@ public class Handler extends Thread {
 
     // communication is managed in this method, currently working on regex
     private void communicate() throws IOException {
+        //TODO send chat-message not to myself
 
         //for chatting with other clients syntax needs to be "sag sometext" which would then broadcast "sometext" to
         //all users that have logged in, broadcast is transmitted to all rooms for now
@@ -124,7 +125,12 @@ public class Handler extends Thread {
             for (PrintWriter writer : writers) {
                 writer.println(name.substring(20) + " sagt: " + input.substring(3));
             }
-            //TODO create room-internal communication via list of registered users
+            //TODO create room-internal communication via list of handlers (created via register in room)
+        }
+        
+        if (input.matches("sprich zu barkeeper .*")){
+            out.println();
+            out.println("Der Barkeeper murmelt etwas vor sich hin.");
         }
 
     }
