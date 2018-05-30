@@ -1,7 +1,6 @@
 package Server;
 
 import rooms.Room;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -19,7 +18,6 @@ public class Handler extends Thread {
     private final static Logger log = Logger.getLogger(SocketServer.class.getName());
     private static HashSet<String> names = new HashSet<String>();
     private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
-
     public String name;
     private String input;
     private Socket socket;
@@ -31,6 +29,7 @@ public class Handler extends Thread {
         this.socket = socket;
     }
 
+    //method to start off the game - logging in, initiating functionalities, setting up defaults etc
     public void run() {
         try {
             //always enter in cafeteria
@@ -135,6 +134,7 @@ public class Handler extends Thread {
 
     }
 
+    //method to handle common inputs that give back a special output
     private void commonInput() {
         currentRoom.roomObjects();
         // if "b" is typed, the long description of the room is prompted - only for the current client!
