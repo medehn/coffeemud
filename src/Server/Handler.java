@@ -44,7 +44,7 @@ public class Handler extends Thread {
 
             while (true) {
                 //Graphic to start Mud
-                out.println("               WELCOME to the unique, fun, crazy and fascinating world of...");
+                out.println("          WELCOME to the unique, fun, crazy and fascinating world of...");
                 graphics();
                 //sleep for delayed output
                 TimeUnit.MILLISECONDS.sleep(1000);
@@ -119,6 +119,7 @@ public class Handler extends Thread {
             }
             //TODO create room-internal communication via list of registered users
         }
+
     }
 
     private void commonInput() {
@@ -139,29 +140,25 @@ public class Handler extends Thread {
             }
         }
 
-        //TODO output formatieren
         else if (input.matches(("hilfe"))) {
-            out.println(
-                "Liste der Kommandos:" +
-                    "b = betrachte deine Umgebung." +
-                    "sag TEXT = sende TEXT als Chat-Mitteilung an alle eingeloggten User." +
-                    "wer = Liste der momentan eingeloggten User" +
-                    "n,o,s,w = Norden, Osten, Süden, Westen - mit jeweils einem Befehl bewegst du dich in die " +
-                    "jeweilige Richtung");
+            out.println("Liste der Kommandos:");
+            out.println("b = betrachte deine Umgebung.");
+            out.println("sag TEXT = sende TEXT als Chat-Mitteilung an alle eingeloggten User.");
+            out.println("wer = Liste der momentan eingeloggten User");
+            out.println("n,o,s,w = Norden, Osten, Süden, Westen - mit jeweils einem Befehl bewegst du dich in die jeweilige Richtung");
 
         }
+        //watching at details
         if (input.length() > 3) {
             String key = input.substring(2);
-            if (input.matches("b "+key)) {
+            if (input.matches("b " + key)) {
                 out.println(currentRoom.langItems(key));
+            } else {
+                out.println("");
             }
 
         }
     }
-
-
-
-
 
     //This method coordinates movements between rooms
     private void move() throws IOException {

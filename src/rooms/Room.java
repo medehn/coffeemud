@@ -20,7 +20,8 @@ public class Room {
     private String sueden = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
 
     public ArrayList<Handler> clients = new ArrayList<Handler>();
-    public HashMap<String, BasisObject> roomItems = new HashMap<>();
+
+
     public String register(Handler handler) {
         clients.add(handler);
         String clientList = "";
@@ -32,6 +33,9 @@ public class Room {
         return clientList;
     }
 
+    public void unregister(Handler handler) {
+        clients.remove(handler);
+    }
     public String clientlist() {
         String clientList = null;
 
@@ -53,36 +57,23 @@ public class Room {
         return "Das hat nicht funktioniert.";
     }
     public void roomObjects(){}
-
-    public void unregister(Handler handler) {
-        clients.remove(handler);
-    }
-
     boolean licht = true;
 
     public Room goWest() {
         return null;
     }
 
-    ;
-
     public Room goOst() {
         return null;
     }
-
-    ;
 
     public Room goSud() {
         return null;
     }
 
-    ;
-
     public Room goNord() {
         return null;
     }
-
-    ;
 
     public void setLang(String lang) {
         this.lang = lang;
