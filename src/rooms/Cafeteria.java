@@ -23,8 +23,16 @@ public class Cafeteria extends Room {
         roomItems.put("kaffeemaschine",kaffeemaschine);;
     }
 
-    public String getItems(String i){
-         return roomItems.get(i).getLang();
+    public String langItems(String i) {
+        if (i.equals("kaffeemaschine")) {
+            return roomItems.get(i).getLang();
+        } else if (i.equals("oeffnungen")) {
+            String currentObj = "kaffeemaschine";
+            return roomItems.get(currentObj).getDetails1();
+        }else return "Was genau willst du anschauen?";
+    }
+    public String kurzItems(String i){
+        return roomItems.get(i).getKurz();
     }
 
 

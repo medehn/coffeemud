@@ -13,6 +13,7 @@ public class Room {
     private String lang = "Du stehst mitten im Nirgendwo - da ist wohl was schiefgegangen!";
     private String kurz = "Nirwana";
 
+
     private String westen = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
     private String osten = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
     private String norden = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
@@ -45,9 +46,12 @@ public class Room {
             return clientList;
         }
     }
-    public String getItems (String i){
+    public String langItems (String i){
         return "Das hat nicht funktioniert.";
     };
+    public String kurzItems(String i){
+        return "Das hat nicht funktioniert.";
+    }
     public void roomObjects(){}
 
     public void unregister(Handler handler) {

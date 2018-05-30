@@ -13,7 +13,7 @@ public class CoffeeMachine extends BasisObject {
         "es vier Auslaesse zu geben, aus denen dann vermutlich der Kaffee herauskommt.";
 
     private String kurz = "Eine Kaffeemaschine";
-    private String oeffnungen = "Vier Oeffnungen, davon sind zwei fest verschlossen.";
+    private String details1 = "Vier Oeffnungen, davon sind zwei fest verschlossen.";
 
 
     @Override
@@ -36,11 +36,11 @@ public class CoffeeMachine extends BasisObject {
         this.kurz = kurz;
     }
 
-    public String getOeffnungen() {
-        return oeffnungen;
+    public String getDetails1() {
+        return details1;
     }
 
-    public void setOeffnungen(String oeffnungen) {
-        this.oeffnungen = oeffnungen;
+    public void setDetails1(String details1) {
+        this.details1 = details1;
     }
 }

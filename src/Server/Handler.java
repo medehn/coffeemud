@@ -150,12 +150,13 @@ public class Handler extends Thread {
                     "jeweilige Richtung");
 
         }
-        if (input.matches("b kaffeemaschine")) {
+        if (input.length() > 3) {
             String key = input.substring(2);
-            System.out.println("key " + key);
-            out.println(currentRoom.getItems(key));
-        }
+            if (input.matches("b "+key)) {
+                out.println(currentRoom.langItems(key));
+            }
 
+        }
     }
 
 

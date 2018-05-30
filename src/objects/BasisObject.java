@@ -13,15 +13,12 @@ public class BasisObject {
     private String hear;
     private boolean alive;
     private int weight;
+    private String details1;
+    private String details2;
 
     HashMap<String,String> items = new HashMap<String,String>();
     public void itemList(){
     }
-
-    public String details() {
-        return "Da ist was schiefgegangen.";
-    }
-
     public String getLang() {
         return lang;
     }
@@ -76,5 +73,21 @@ public class BasisObject {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public String getDetails1() {
+        return details1;
+    }
+
+    public void setDetails1(String details1) {
+        this.details1 = details1;
+    }
+
+    public String getDetails2() {
+        return details2;
+    }
+
+    public void setDetails2(String details2) {
+        this.details2 = details2;
     }
 }
