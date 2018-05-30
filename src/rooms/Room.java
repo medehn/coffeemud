@@ -32,6 +32,7 @@ public class Room {
 
         if (clients.size()==1) {
             return "Nur du befindest dich in diesem Raum.";
+            //TODO add output for NPCs
         }else{
         String clientList = "";
         Handler first = clients.get(0);

@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class Cafeteria extends Room {
 
     private String lang = "Die Cafeteria ist ein kleiner, gemuetlicher Raum. Einige Tische laden " +
-        "zum Hinsetzen ein, hinter der Theke erblickst du eine riesige Kaffeemaschine. " +
+        "zum Hinsetzen ein, hinter der Theke steht ein Barkeeper, der etwas verzweifelt auf  eine riesige Kaffeemaschine schaut. " +
         "Im Westen geht es in den Flur.";
 
     private String kurz = "Cafeteria";
