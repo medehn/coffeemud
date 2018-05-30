@@ -25,15 +25,13 @@ public class Handler extends Thread {
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
+    private Room currentRoom;
 
     public Handler(Socket socket) {
         this.socket = socket;
     }
 
-    private Room currentRoom;
-
     public void run() {
-
         try {
             //always enter in cafeteria
             currentRoom = roomHandler.getCafe();
@@ -44,8 +42,14 @@ public class Handler extends Thread {
 
             while (true) {
                 //Graphic to start Mud
-                out.println("          WELCOME to the unique, fun, crazy and fascinating world of...");
+                out.println("WILLKOMMEN im");
+                out.println("");
                 graphics();
+                out.println("");
+                out.println("Dies ist ein MUD - ein Multi User Dungeon. Tippe \"hilfe\", um dir eine Liste der Kommandos ausgeben zu lassen,");
+                out.println("Sieh dich um, unterhalte dich, hab Spass! Falls du Bugs findest darfst du sie gern behalten.");
+                out.println("Da dieses MUD noch im Aufbau ist freut sich Mel ueber Inputs,  und Ideen!");
+                out.println("");
                 //sleep for delayed output
                 TimeUnit.MILLISECONDS.sleep(1000);
                 // Request a name from this client.  Keep requesting until
@@ -128,7 +132,7 @@ public class Handler extends Thread {
         if (input.matches(("b"))) {
             out.println(currentRoom.getKurz());
             out.println(currentRoom.getLang());
-            out.println(currentRoom.clientlist());
+            out.println(currentRoom.clientsInRoom());
         }
 
         // who-List
@@ -143,6 +147,7 @@ public class Handler extends Thread {
         else if (input.matches(("hilfe"))) {
             out.println("Liste der Kommandos:");
             out.println("b = betrachte deine Umgebung.");
+            out.println("b GEGENSTAND = betrachte einen Gewissen Gegenstand oder ein Detail genauer.");
             out.println("sag TEXT = sende TEXT als Chat-Mitteilung an alle eingeloggten User.");
             out.println("wer = Liste der momentan eingeloggten User");
             out.println("n,o,s,w = Norden, Osten, Süden, Westen - mit jeweils einem Befehl bewegst du dich in die jeweilige Richtung");

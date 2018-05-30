@@ -28,28 +28,29 @@ public class Room {
         Handler first = clients.get(0);
         clientList = "In diesem Raum befinden sich: " + first.name.substring(20);
         for (int i = 1; i < clients.size(); i++) {
-            clientList = clients.get(i).name.substring(20) + ", " + clientList;
+            clientList = clientList+", "+clients.get(i).name.substring(20) + ", ";
         }
         return clientList;
     }
 
+    public String clientsInRoom() {
+
+        if (clients.isEmpty()) {
+            return "Nur du befindest dich in diesem Raum.";
+        }else{
+        String clientList = "";
+        Handler first = clients.get(0);
+        clientList = "In diesem Raum befinden sich: " + first.name.substring(20);
+        for (int i = 1; i < clients.size(); i++) {
+            clientList = clientList+", "+clients.get(i).name.substring(20) + ", ";
+        }
+        return clientList;
+    }}
+
     public void unregister(Handler handler) {
         clients.remove(handler);
     }
-    public String clientlist() {
-        String clientList = null;
 
-        if (clientList == null) {
-            return "Nur du befindest dich in diesem Raum.";
-        } else {
-            Handler first = clients.get(0);
-            clientList = "In diesem Raum befinden sich: " + first.name.substring(20);
-            for (int i = 1; i < clients.size(); i++) {
-                clientList = clients.get(i).name.substring(20) + ", " + clientList;
-            }
-            return clientList;
-        }
-    }
     public String langItems (String i){
         return "Das hat nicht funktioniert.";
     };
