@@ -1,6 +1,7 @@
 package rooms;
 
 import Server.roomHandler;
+import objects.Barkeeper;
 import objects.BasisObject;
 import objects.CoffeeMachine;
 
@@ -16,11 +17,13 @@ public class Cafeteria extends Room {
     private String kurz = "Cafeteria";
     private String westen = "Du gehst nach Westen in den Flur.";
     public CoffeeMachine kaffeemaschine = new CoffeeMachine();
+    public Barkeeper markus = new Barkeeper();
 
     public HashMap<String, BasisObject> roomItems = new HashMap<>();
 
     public void roomObjects(){
         roomItems.put("kaffeemaschine",kaffeemaschine);;
+        roomItems.put("barkeeper", markus);
     }
 
     public String langItems(String i) {
@@ -29,6 +32,9 @@ public class Cafeteria extends Room {
         } else if (i.equals("oeffnungen")) {
             String currentObj = "kaffeemaschine";
             return roomItems.get(currentObj).getDetails1();
+        }else if(i.equals("barkeeper")) {
+            return markus.getLang();
+
         }else return "Was genau willst du anschauen?";
     }
     public String kurzItems(String i){
