@@ -21,7 +21,7 @@ public class Cafeteria extends Room {
 
     public HashMap<String, BasisObject> roomItems = new HashMap<>();
 
-    public void roomObjects(){
+    public void roomItems(){
         roomItems.put("kaffeemaschine",kaffeemaschine);;
         roomItems.put("barkeeper", markus);
     }

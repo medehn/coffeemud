@@ -28,6 +28,13 @@ public class Room {
 
     }
 
+    public void say(String text){
+        for(Handler client:clients){
+            client.out.println(client.name.substring(20)+" sagt: "+text);
+        }
+
+    }
+
     public String clientsInRoom() {
 
         if (clients.size()==1) {
@@ -53,7 +60,7 @@ public class Room {
     public String kurzItems(String i){
         return "Das hat nicht funktioniert.";
     }
-    public void roomObjects(){}
+    public void roomItems(){}
     boolean licht = true;
 
     public Room goWest() {

@@ -22,7 +22,7 @@ public class Handler extends Thread {
     private String input;
     private Socket socket;
     private BufferedReader in;
-    private PrintWriter out;
+    public PrintWriter out;
     private Room currentRoom;
 
     public Handler(Socket socket) {
@@ -64,11 +64,11 @@ public class Handler extends Thread {
                 if (names.contains(name)) {
                     out.println("So heisst schon jemand... ");
                 }
-                
+
                 synchronized (names) {
                     if (!names.contains(name)) {
                         names.add(name);
-                        
+
                         break;
                     }
                 }
@@ -120,13 +120,17 @@ public class Handler extends Thread {
 
         //for chatting with other clients syntax needs to be "sag sometext" which would then broadcast "sometext" to
         //all users that have logged in, broadcast is transmitted to all rooms for now
-        if (input.matches("(?i)sag .*")) {
+        if (input.matches("(?i)schrei .*")) {
             for (PrintWriter writer : writers) {
-                writer.println(name.substring(20) + " sagt: " + input.substring(3));
+                writer.println(name.substring(20) + " schreit: " + input.substring(6));
             }
-            //TODO create room-internal communication via list of handlers (created via register in room)
         }
-        
+
+        if(input.matches("sag .*")){
+            String text = input.substring(3);
+            currentRoom.say(text);
+        }
+
         if (input.matches("sprich zu barkeeper .*")){
             out.println();
             out.println("Der Barkeeper murmelt etwas vor sich hin.");
@@ -136,7 +140,7 @@ public class Handler extends Thread {
 
     //method to handle common inputs that give back a special output
     private void commonInput() {
-        currentRoom.roomObjects();
+        currentRoom.roomItems();
         // if "b" is typed, the long description of the room is prompted - only for the current client!
         if (input.matches(("b"))) {
             out.println(currentRoom.getKurz());
@@ -242,7 +246,6 @@ public class Handler extends Thread {
             }
         }
     }
-
 
     //Method to display Ascii graphic to start the game
     private void graphics() {
