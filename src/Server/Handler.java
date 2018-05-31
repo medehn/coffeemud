@@ -131,9 +131,8 @@ public class Handler extends Thread {
             currentRoom.say(text);
         }
 
-        if (input.matches("sprich zu barkeeper .*")){
-            out.println();
-            out.println("Der Barkeeper murmelt etwas vor sich hin.");
+        if (input.matches("bestelle kaffee")){
+            out.println(currentRoom.raetsel());
         }
 
     }

@@ -5,6 +5,7 @@ public class Barkeeper extends BasisObject {
     private String kurz = "Markus, der Barkeeper.";
     private String lang = "Das ist der Barkeeper dieser Cafeteria - Markus.";
 
+
     @Override
     public String getKurz() {
         return kurz;

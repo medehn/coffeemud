@@ -62,6 +62,9 @@ public class Room {
     }
     public void roomItems(){}
     boolean licht = true;
+    public String raetsel(){
+        return "Da gibt es nichts.";
+    }
 
     public Room goWest() {
         return null;

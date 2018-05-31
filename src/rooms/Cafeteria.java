@@ -37,6 +37,14 @@ public class Cafeteria extends Room {
 
         }else return "Was genau willst du anschauen?";
     }
+
+    public String raetsel(){
+        String raetselText = "Du moechtest einen Kaffee? Tut mir leid, die Kaffeemaschine funktioniert gerade nicht." +
+            "Ich habe keine Filter mehr - ein Festungszwerg hat mir die Packung mit den Filtern geklaut und ist in " +
+            "den Park gerannt. Wenn du mir einen Filter bringst kann ich dir einen Kaffee machen.";
+
+        return raetselText;
+    }
     public String kurzItems(String i){
         return roomItems.get(i).getKurz();
     }
