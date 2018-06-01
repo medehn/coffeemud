@@ -116,9 +116,7 @@ public class Handler extends Thread {
 
     // communication is managed in this method, currently working on regex
     private void communicate() throws IOException {
-        //TODO send chat-message not to myself
-
-        //for chatting with other clients syntax needs to be "sag sometext" which would then broadcast "sometext" to
+                //for chatting with other clients syntax needs to be "sag sometext" which would then broadcast "sometext" to
         //all users that have logged in, broadcast is transmitted to all rooms for now
         if (input.matches("(?i)schrei .*")) {
             for (PrintWriter writer : writers) {
@@ -180,20 +178,23 @@ public class Handler extends Thread {
     //This method coordinates movements between rooms
     private void move() throws IOException {
 
-        //TODO add message for entering/leaving a room to show others
-
         //exits towards other rooms
         if (input.matches(("w"))) {
             //if there is an exit west
             if (currentRoom.goWest() != null) {
                 //print the movement-msg
                 out.println(currentRoom.getWesten());
-                //set the current room to the room that is west of the last
+                //delete this handler from the clientlist of the currentroom
                 currentRoom.unregister(this);
+                //send notificaion to other handlers in room that you left
+                currentRoom.leaveRoom(this);
+                //set the current room to the room that is west of the last
                 currentRoom = currentRoom.goWest();
                 //print room description
                 out.println(currentRoom.getKurz());
                 out.println(currentRoom.getLang());
+                //send notification to other handlers that you entered
+                currentRoom.enterRoom(this);
                 //registering to a list of clients held by the room and creating a list of present clients
                 currentRoom.register(this);
                 out.println(currentRoom.clientsInRoom());
@@ -207,9 +208,11 @@ public class Handler extends Thread {
             if (currentRoom.goOst() != null) {
                 out.println(currentRoom.getOsten());
                 currentRoom.unregister(this);
+                currentRoom.leaveRoom(this);
                 currentRoom = currentRoom.goOst();
                 out.println(currentRoom.getKurz());
                 out.println(currentRoom.getLang());
+                currentRoom.enterRoom(this);
                 currentRoom.register(this);
                 out.println(currentRoom.clientsInRoom());
             } else {
@@ -221,9 +224,11 @@ public class Handler extends Thread {
             if (currentRoom.goSud() != null) {
                 out.println(currentRoom.getSueden());
                 currentRoom.unregister(this);
+                currentRoom.leaveRoom(this);
                 currentRoom = currentRoom.goSud();
                 out.println(currentRoom.getKurz());
                 out.println(currentRoom.getLang());
+                currentRoom.enterRoom(this);
                 currentRoom.register(this);
                 out.println(currentRoom.clientsInRoom());
             } else {
@@ -235,9 +240,11 @@ public class Handler extends Thread {
             if (currentRoom.goNord() != null) {
                 out.println(currentRoom.getNorden());
                 currentRoom.unregister(this);
+                currentRoom.leaveRoom(this);
                 currentRoom = currentRoom.goNord();
                 out.println(currentRoom.getKurz());
                 out.println(currentRoom.getLang());
+                currentRoom.enterRoom(this);
                 currentRoom.register(this);
                 out.println(currentRoom.clientsInRoom());
             } else {

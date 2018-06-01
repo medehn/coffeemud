@@ -12,8 +12,6 @@ public class Room {
 
     private String lang = "Du stehst mitten im Nirgendwo - da ist wohl was schiefgegangen!";
     private String kurz = "Nirwana";
-
-
     private String westen = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
     private String osten = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
     private String norden = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
@@ -22,21 +20,41 @@ public class Room {
     public ArrayList<Handler> clients = new ArrayList<Handler>();
 
 
+    //register to a list of present handlers in the current room
     public void register(Handler handler) {
         clients.add(handler);
         clientsInRoom();
 
     }
 
+    //communication, limited to the room
     public void say(String text){
         for(Handler client:clients){
             client.out.println(client.name.substring(20)+" sagt: "+text);
         }
 
     }
+    public void enterRoom(Handler handler){
+        for(Handler client:clients){
+            if (client.equals(handler)){
+                break;
+            }else{
+            client.out.println(client.name.substring(20) +" naehert sich.");
+        }}
+    }
+
+    public void leaveRoom(Handler handler) {
+        for (Handler client : clients) {
+            if (client.equals(handler)) {
+                break;
+            } else {
+                client.out.println(client.name.substring(20) + " entfernt sich.");
+
+            }
+        }
+    }
 
     public String clientsInRoom() {
-
         if (clients.size()==1) {
             return "Nur du befindest dich in diesem Raum.";
             //TODO add output for NPCs
