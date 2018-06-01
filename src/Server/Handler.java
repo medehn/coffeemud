@@ -130,7 +130,7 @@ public class Handler extends Thread {
             currentRoom.say(text);
         }
 
-        if (input.matches("bestelle kaffee")) {
+        if (input.matches(currentRoom.raetselSyntax())) {
             out.println(currentRoom.raetsel());
         }
 

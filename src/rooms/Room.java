@@ -22,6 +22,9 @@ public class Room {
         clientsInRoom();
     }
 
+    public String raetselSyntax(){
+        return "";
+    }
     public String getNPC() {
         return "";
     }

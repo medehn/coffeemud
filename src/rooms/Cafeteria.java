@@ -22,14 +22,16 @@ public class Cafeteria extends Room {
 
     public void roomItems() {
         roomItems.put("kaffeemaschine", kaffeemaschine);
-        ;
         roomItems.put("barkeeper", markus);
     }
 
+    //method to display NPCs in the room
     public String getNPC() {
-        return "Markus, der Barkeeper.";
+        return markus.getKurz();
     }
 
+    //temporary way of reacting to input concerning objects in rooms, is to be
+    //replaced by iterating over a list of instanciated objects and getting their properties
     public String langItems(String i) {
         if (i.equals("kaffeemaschine")) {
             return roomItems.get(i).getLang();
@@ -38,22 +40,23 @@ public class Cafeteria extends Room {
             return roomItems.get(currentObj).getDetails1();
         } else if (i.equals("barkeeper")) {
             return markus.getLang();
-
         } else return "Was genau willst du anschauen?";
+    }
+    public String kurzItems(String i) {
+        return roomItems.get(i).getKurz();
     }
 
     public String raetsel() {
-        String raetselText = "Du moechtest einen Kaffee? Tut mir leid, die Kaffeemaschine funktioniert gerade nicht." +
+        String raetselText = "Markus sagt: Du moechtest einen Kaffee? Tut mir leid, die Kaffeemaschine funktioniert gerade nicht." +
             "Ich habe keine Filter mehr - ein Festungszwerg hat mir die Packung mit den Filtern geklaut und ist in " +
             "den Park gerannt. Wenn du mir einen Filter bringst kann ich dir einen Kaffee machen.";
 
         return raetselText;
     }
 
-    public String kurzItems(String i) {
-        return roomItems.get(i).getKurz();
+    public String raetselSyntax(){
+        return "bestelle kaffee";
     }
-
 
     public String details() {
         return kaffeemaschine.getKurz();
@@ -63,7 +66,6 @@ public class Cafeteria extends Room {
     public Room goWest() {
         return roomHandler.getEingang();
     }
-
 
     @Override
     public String getLang() {

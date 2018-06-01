@@ -1,6 +1,7 @@
 package rooms;
 
 import Server.roomHandler;
+import objects.Dwarf;
 
 public class ParkExit extends Room {
     private String lang = "Du stehst am Anfang des Parks. Ein paar Sitzbaenke stehen verteilt, du kannst eine " +
@@ -11,7 +12,21 @@ public class ParkExit extends Room {
     private String westen = "Du gehst durch den Park.";
     private String sueden = "Du gehst durch den Park.";
     private String norden = "Du gehst durch den Park.";
+    public Dwarf Festungszwerk = new Dwarf();
 
+    public String getNPC(){
+        return Festungszwerk.getKurz();
+    }
+    public String raetselSyntax(){
+        return "belausche zwerg";
+    }
+
+    public String raetsel() {
+        String raetselText = "Der Zwerg murmelt: Hahahaha, das war so einfach... diese Filter, die kann ich bestimmt benutzen, " +
+            "um meinen naechsten Fusel zu filtern... HE! Guck nicht so! Was willst du von mir!";
+
+        return raetselText;
+    }
     public Room goOst() {
         return roomHandler.getEingang();
     }
