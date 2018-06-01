@@ -1,8 +1,8 @@
-package objects;
+package Basis;
 
-import java.util.ArrayList;
+// Basis Object for inheritance
+
 import java.util.HashMap;
-import java.util.List;
 
 public class BasisObject {
 

@@ -1,5 +1,7 @@
 package objects;
 
+import Basis.BasisObject;
+
 public class Barkeeper extends BasisObject {
 
     private String kurz = "Markus, der Barkeeper.";

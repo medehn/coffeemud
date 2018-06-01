@@ -1,5 +1,7 @@
 package objects;
 
+import Basis.BasisObject;
+
 public class Dwarf extends BasisObject {
     private String kurz = "Ein Zwerg.";
     private String lang = "Eine seltsame Kreatur steht vor dir. Klein, rote Nase, zerschlissene Kleidung, Bart..." +

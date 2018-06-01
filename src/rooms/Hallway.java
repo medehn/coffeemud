@@ -1,5 +1,6 @@
 package rooms;
 
+import Basis.Room;
 import Server.roomHandler;
 
 

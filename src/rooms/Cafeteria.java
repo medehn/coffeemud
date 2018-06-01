@@ -1,8 +1,9 @@
 package rooms;
 
+import Basis.Room;
 import Server.roomHandler;
 import objects.Barkeeper;
-import objects.BasisObject;
+import Basis.BasisObject;
 import objects.CoffeeMachine;
 import java.util.HashMap;
 

@@ -1,9 +1,8 @@
-package rooms;
+package Basis;
 
 //Default Room Object to inherit
 
 import Server.ClientHandler;
-
 import java.util.ArrayList;
 
 public class Room {

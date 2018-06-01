@@ -1,6 +1,6 @@
 package Server;
 
-import rooms.Room;
+import Basis.Room;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -69,7 +69,6 @@ public class ClientHandler extends Thread {
                 synchronized (names) {
                     if (!names.contains(name)) {
                         names.add(name);
-
                         break;
                     }
                 }
@@ -90,7 +89,6 @@ public class ClientHandler extends Thread {
                 communicate();
                 move();
                 commonInput();
-
             }
         } catch (IOException e) {
             System.out.println(e);
@@ -98,25 +96,6 @@ public class ClientHandler extends Thread {
             e.printStackTrace();
         } finally {
             endConn();
-
-        }
-    }
-
-    private void endConn(){
-        //remove client if he closes the connection
-        if (name != null) {
-            names.remove(name);
-            for (PrintWriter writer : writers) {
-                writer.println(name.substring(20) + " hat die Verbindung soeben getrennt.");
-            }
-        }
-        if (out != null) {
-            writers.remove(out);
-        }
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -134,6 +113,10 @@ public class ClientHandler extends Thread {
             String text = input.substring(3);
             currentRoom.say(text);
         }
+    }
+
+    //method to handle common inputs that give back a special output
+    private void commonInput() {
 
         //starting raetsel communication if there is any in the currentroom
         if (input.matches(currentRoom.raetselSyntax())) {
@@ -144,10 +127,6 @@ public class ClientHandler extends Thread {
         if(input.matches("ende")){
             endConn();
         }
-    }
-
-    //method to handle common inputs that give back a special output
-    private void commonInput() {
         currentRoom.roomItems();
         // if "b" is typed, the long description of the room is prompted - only for the current client!
         if (input.matches(("b"))) {
@@ -180,7 +159,24 @@ public class ClientHandler extends Thread {
             } else {
                 out.println("");
             }
+        }
+    }
 
+    private void endConn(){
+        //remove client if he closes the connection
+        if (name != null) {
+            names.remove(name);
+            for (PrintWriter writer : writers) {
+                writer.println(name.substring(20) + " hat die Verbindung soeben getrennt.");
+            }
+        }
+        if (out != null) {
+            writers.remove(out);
+        }
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
