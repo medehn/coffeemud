@@ -4,15 +4,13 @@ import Server.roomHandler;
 import objects.Barkeeper;
 import objects.BasisObject;
 import objects.CoffeeMachine;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Cafeteria extends Room {
 
     private String lang = "Die Cafeteria ist ein kleiner, gemuetlicher Raum. Einige Tische laden " +
         "zum Hinsetzen ein, hinter der Theke steht ein Barkeeper, der etwas verzweifelt auf  eine riesige Kaffeemaschine schaut. " +
-        "Im Westen geht es in den Flur.";
+        "Bestelle doch mal einen Kaffee! Im Westen geht es in den Flur.";
 
     private String kurz = "Cafeteria";
     private String westen = "Du gehst nach Westen in den Flur.";
@@ -50,7 +48,6 @@ public class Cafeteria extends Room {
         String raetselText = "Markus sagt: Du moechtest einen Kaffee? Tut mir leid, die Kaffeemaschine funktioniert gerade nicht." +
             "Ich habe keine Filter mehr - ein Festungszwerg hat mir die Packung mit den Filtern geklaut und ist in " +
             "den Park gerannt. Wenn du mir einen Filter bringst kann ich dir einen Kaffee machen.";
-
         return raetselText;
     }
 
@@ -61,7 +58,6 @@ public class Cafeteria extends Room {
     public String details() {
         return kaffeemaschine.getKurz();
     }
-
 
     public Room goWest() {
         return roomHandler.getEingang();

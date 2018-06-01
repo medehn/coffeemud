@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-public class Handler extends Thread {
+public class ClientHandler extends Thread {
 
     private final static Logger log = Logger.getLogger(SocketServer.class.getName());
     private static HashSet<String> names = new HashSet<String>();
@@ -26,7 +26,7 @@ public class Handler extends Thread {
     public PrintWriter out;
     private Room currentRoom;
 
-    public Handler(Socket socket) {
+    public ClientHandler(Socket socket) {
         this.socket = socket;
     }
 
@@ -97,21 +97,26 @@ public class Handler extends Thread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            //remove client if he closes the connection
-            if (name != null) {
-                names.remove(name);
-                for (PrintWriter writer : writers) {
-                    writer.println(name.substring(20) + " hat die Verbindung soeben getrennt.");
-                }
+            endConn();
+
+        }
+    }
+
+    private void endConn(){
+        //remove client if he closes the connection
+        if (name != null) {
+            names.remove(name);
+            for (PrintWriter writer : writers) {
+                writer.println(name.substring(20) + " hat die Verbindung soeben getrennt.");
             }
-            if (out != null) {
-                writers.remove(out);
-            }
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        }
+        if (out != null) {
+            writers.remove(out);
+        }
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -130,10 +135,15 @@ public class Handler extends Thread {
             currentRoom.say(text);
         }
 
+        //starting raetsel communication if there is any in the currentroom
         if (input.matches(currentRoom.raetselSyntax())) {
             out.println(currentRoom.raetsel());
         }
 
+        //close connection and window
+        if(input.matches("ende")){
+            endConn();
+        }
     }
 
     //method to handle common inputs that give back a special output
@@ -160,7 +170,7 @@ public class Handler extends Thread {
             out.println("sag TEXT = sende TEXT als Chat-Mitteilung an alle eingeloggten User.");
             out.println("wer = Liste der momentan eingeloggten User");
             out.println("n,o,s,w = Norden, Osten, Süden, Westen - mit jeweils einem Befehl bewegst du dich in die jeweilige Richtung");
-
+            out.println("ende - beendet die Verbindung und schliesst das aktive Fenster");
         }
         //watching at details
         if (input.length() > 3) {

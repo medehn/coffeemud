@@ -2,7 +2,7 @@ package rooms;
 
 //Default Room Object to inherit
 
-import Server.Handler;
+import Server.ClientHandler;
 
 import java.util.ArrayList;
 
@@ -14,11 +14,11 @@ public class Room {
     private String osten = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
     private String norden = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
     private String sueden = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
-    public ArrayList<Handler> clients = new ArrayList<Handler>();
+    public ArrayList<ClientHandler> clients = new ArrayList<ClientHandler>();
 
     //register to a list of present handlers in the current room
-    public void register(Handler handler) {
-        clients.add(handler);
+    public void register(ClientHandler clientHandler) {
+        clients.add(clientHandler);
         clientsInRoom();
     }
 
@@ -31,15 +31,15 @@ public class Room {
 
     //communication, limited to the room
     public void say(String text) {
-        for (Handler client : clients) {
+        for (ClientHandler client : clients) {
             client.out.println(client.name.substring(20) + " sagt: " + text);
         }
     }
 
     //output for already present clients if new client enters a room
-    public void enterRoom(Handler handler) {
-        for (Handler client : clients) {
-            if (client.equals(handler)) {
+    public void enterRoom(ClientHandler clientHandler) {
+        for (ClientHandler client : clients) {
+            if (client.equals(clientHandler)) {
                 break;
             } else {
                 client.out.println(client.name.substring(20) + " naehert sich.");
@@ -48,9 +48,9 @@ public class Room {
     }
 
     //output if client leaves a room
-    public void leaveRoom(Handler handler) {
-        for (Handler client : clients) {
-            if (client.equals(handler)) {
+    public void leaveRoom(ClientHandler clientHandler) {
+        for (ClientHandler client : clients) {
+            if (client.equals(clientHandler)) {
                 break;
             } else {
                 client.out.println(client.name.substring(20) + " entfernt sich.");
@@ -66,7 +66,7 @@ public class Room {
             //TODO add output for NPCs
         } else {
             String clientList = "";
-            Handler first = clients.get(0);
+            ClientHandler first = clients.get(0);
             clientList = "In diesem Raum befinden sich: " + first.name.substring(20);
             for (int i = 1; i < clients.size(); i++) {
                 clientList = clientList + ", " + clients.get(i).name.substring(20);
@@ -76,8 +76,8 @@ public class Room {
     }
 
     //deleting oneself from the rooms clientlist
-    public void unregister(Handler handler) {
-        clients.remove(handler);
+    public void unregister(ClientHandler clientHandler) {
+        clients.remove(clientHandler);
     }
 
     public String langItems(String i) {

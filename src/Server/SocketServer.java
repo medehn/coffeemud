@@ -1,7 +1,6 @@
 package Server;
 
 import java.net.ServerSocket;
-import java.util.logging.Logger;
 
 public class SocketServer extends Thread {
 
@@ -12,7 +11,7 @@ public class SocketServer extends Thread {
         ServerSocket listener = new ServerSocket(4321);
         try {
             while (true) {
-                new Handler(listener.accept()).start();
+                new ClientHandler(listener.accept()).start();
             }
         } finally {
             listener.close();
