@@ -169,6 +169,7 @@ public class ClientHandler extends Thread {
             for (PrintWriter writer : writers) {
                 writer.println(name.substring(20) + " hat die Verbindung soeben getrennt.");
             }
+            currentRoom.unregister(this);
         }
         if (out != null) {
             writers.remove(out);
