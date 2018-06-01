@@ -3,10 +3,8 @@ package rooms;
 //Default Room Object to inherit
 
 import Server.Handler;
-import objects.BasisObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Room {
 
@@ -16,33 +14,37 @@ public class Room {
     private String osten = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
     private String norden = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
     private String sueden = "Was soll da bitte sein? Du stehst im Nirwana, da gehts einfach nicht weiter...";
-
     public ArrayList<Handler> clients = new ArrayList<Handler>();
-
 
     //register to a list of present handlers in the current room
     public void register(Handler handler) {
         clients.add(handler);
         clientsInRoom();
+    }
 
+    public String getNPC() {
+        return "";
     }
 
     //communication, limited to the room
-    public void say(String text){
-        for(Handler client:clients){
-            client.out.println(client.name.substring(20)+" sagt: "+text);
+    public void say(String text) {
+        for (Handler client : clients) {
+            client.out.println(client.name.substring(20) + " sagt: " + text);
         }
-
     }
-    public void enterRoom(Handler handler){
-        for(Handler client:clients){
-            if (client.equals(handler)){
+
+    //output for already present clients if new client enters a room
+    public void enterRoom(Handler handler) {
+        for (Handler client : clients) {
+            if (client.equals(handler)) {
                 break;
-            }else{
-            client.out.println(client.name.substring(20) +" naehert sich.");
-        }}
+            } else {
+                client.out.println(client.name.substring(20) + " naehert sich.");
+            }
+        }
     }
 
+    //output if client leaves a room
     public void leaveRoom(Handler handler) {
         for (Handler client : clients) {
             if (client.equals(handler)) {
@@ -54,33 +56,41 @@ public class Room {
         }
     }
 
+    //checking and outputting clients that are present in a given room
     public String clientsInRoom() {
-        if (clients.size()==1) {
+        if (clients.size() == 1) {
             return "Nur du befindest dich in diesem Raum.";
             //TODO add output for NPCs
-        }else{
-        String clientList = "";
-        Handler first = clients.get(0);
-        clientList = "In diesem Raum befinden sich: " + first.name.substring(20);
-        for (int i = 1; i < clients.size(); i++) {
-            clientList = clientList+", "+clients.get(i).name.substring(20);
+        } else {
+            String clientList = "";
+            Handler first = clients.get(0);
+            clientList = "In diesem Raum befinden sich: " + first.name.substring(20);
+            for (int i = 1; i < clients.size(); i++) {
+                clientList = clientList + ", " + clients.get(i).name.substring(20);
+            }
+            return clientList;
         }
-        return clientList;
-    }}
+    }
 
+    //deleting oneself from the rooms clientlist
     public void unregister(Handler handler) {
         clients.remove(handler);
     }
 
-    public String langItems (String i){
-        return "Das hat nicht funktioniert.";
-    };
-    public String kurzItems(String i){
+    public String langItems(String i) {
         return "Das hat nicht funktioniert.";
     }
-    public void roomItems(){}
-    boolean licht = true;
-    public String raetsel(){
+
+    ;
+
+    public String kurzItems(String i) {
+        return "Das hat nicht funktioniert.";
+    }
+
+    public void roomItems() {
+    }
+
+    public String raetsel() {
         return "Da gibt es nichts.";
     }
 

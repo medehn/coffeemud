@@ -1,6 +1,7 @@
 package Server;
 
 import rooms.Room;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -116,7 +117,7 @@ public class Handler extends Thread {
 
     // communication is managed in this method, currently working on regex
     private void communicate() throws IOException {
-                //for chatting with other clients syntax needs to be "sag sometext" which would then broadcast "sometext" to
+        //for chatting with other clients syntax needs to be "sag sometext" which would then broadcast "sometext" to
         //all users that have logged in, broadcast is transmitted to all rooms for now
         if (input.matches("(?i)schrei .*")) {
             for (PrintWriter writer : writers) {
@@ -124,12 +125,12 @@ public class Handler extends Thread {
             }
         }
 
-        if(input.matches("sag .*")){
+        if (input.matches("sag .*")) {
             String text = input.substring(3);
             currentRoom.say(text);
         }
 
-        if (input.matches("bestelle kaffee")){
+        if (input.matches("bestelle kaffee")) {
             out.println(currentRoom.raetsel());
         }
 
@@ -152,9 +153,7 @@ public class Handler extends Thread {
             for (String name : names) {
                 out.println(name.substring(20));
             }
-        }
-
-        else if (input.matches(("hilfe"))) {
+        } else if (input.matches(("hilfe"))) {
             out.println("Liste der Kommandos:");
             out.println("b = betrachte deine Umgebung.");
             out.println("b GEGENSTAND = betrachte einen Gewissen Gegenstand oder ein Detail genauer.");
@@ -197,6 +196,7 @@ public class Handler extends Thread {
                 currentRoom.enterRoom(this);
                 //registering to a list of clients held by the room and creating a list of present clients
                 currentRoom.register(this);
+                out.println(currentRoom.getNPC());
                 out.println(currentRoom.clientsInRoom());
                 //if there is no exit:
             } else {
@@ -214,6 +214,7 @@ public class Handler extends Thread {
                 out.println(currentRoom.getLang());
                 currentRoom.enterRoom(this);
                 currentRoom.register(this);
+                out.println(currentRoom.getNPC());
                 out.println(currentRoom.clientsInRoom());
             } else {
                 out.println("Da geht es nicht weiter.");
@@ -230,6 +231,7 @@ public class Handler extends Thread {
                 out.println(currentRoom.getLang());
                 currentRoom.enterRoom(this);
                 currentRoom.register(this);
+                out.println(currentRoom.getNPC());
                 out.println(currentRoom.clientsInRoom());
             } else {
                 out.println("Da geht es nicht weiter.");
@@ -246,6 +248,7 @@ public class Handler extends Thread {
                 out.println(currentRoom.getLang());
                 currentRoom.enterRoom(this);
                 currentRoom.register(this);
+                out.println(currentRoom.getNPC());
                 out.println(currentRoom.clientsInRoom());
             } else {
                 out.println("Da geht es nicht weiter.");

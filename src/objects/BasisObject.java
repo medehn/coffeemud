@@ -16,9 +16,11 @@ public class BasisObject {
     private String details1;
     private String details2;
 
-    HashMap<String,String> items = new HashMap<String,String>();
-    public void itemList(){
+    HashMap<String, String> items = new HashMap<String, String>();
+
+    public void itemList() {
     }
+
     public String getLang() {
         return lang;
     }

@@ -15,12 +15,15 @@ public class ParkLab extends Room {
     public Room goOst() {
         return roomHandler.getParkExit();
     }
+
     public Room goWest() {
         return roomHandler.getParkLab();
     }
+
     public Room goNord() {
         return roomHandler.getParkLab();
     }
+
     public Room goSud() {
         return roomHandler.getParkLab();
     }
