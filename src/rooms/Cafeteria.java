@@ -1,6 +1,7 @@
 package rooms;
 
 import Basis.Room;
+import Server.ClientHandler;
 import Server.roomHandler;
 import objects.Barkeeper;
 import Basis.BasisObject;
@@ -46,11 +47,18 @@ public class Cafeteria extends Room {
         return roomItems.get(i).getKurz();
     }
 
-    public String raetsel() {
-        String raetselText = "Markus sagt: Du moechtest einen Kaffee? Tut mir leid, die Kaffeemaschine funktioniert gerade nicht." +
-            "Ich habe keine Filter mehr - ein Festungszwerg hat mir die Packung mit den Filtern geklaut und ist in " +
-            "den Park gerannt. Wenn du mir einen Filter bringst kann ich dir einen Kaffee machen.";
-        return raetselText;
+    public String raetsel(ClientHandler handler) {
+        if(handler.clientObj.isEmpty()) {
+            String raetselText = "Markus sagt: Du moechtest einen Kaffee? Tut mir leid, die Kaffeemaschine funktioniert gerade nicht." +
+                "Ich habe keine Filter mehr - ein Festungszwerg hat mir die Packung mit den Filtern geklaut und ist in " +
+                "den Park gerannt. Wenn du mir einen Filter bringst kann ich dir einen Kaffee machen.";
+            return raetselText;
+        } else if (handler.clientObj.contains("Ein Kaffeefiilter")) {
+            System.out.println(handler.clientObj.toString());
+            String raetselText = "Markus sagt: OK!";
+            return raetselText;
+        }
+        return "";
     }
 
     public String raetselSyntax(){

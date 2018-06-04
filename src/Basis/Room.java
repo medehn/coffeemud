@@ -93,6 +93,9 @@ public class Room {
     public void roomItems() {
     }
 
+    public String raetsel(ClientHandler handler) {
+        return "Da gibt es nichts.";
+    }
     public String raetsel() {
         return "Da gibt es nichts.";
     }

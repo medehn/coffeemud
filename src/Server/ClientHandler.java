@@ -124,7 +124,7 @@ public class ClientHandler extends Thread {
 
         //starting raetsel communication if there is any in the currentroom
         if (input.matches(currentRoom.raetselSyntax())) {
-            out.println(currentRoom.raetsel());
+            out.println(currentRoom.raetsel(this));
             if (currentRoom.raetselSyntax().matches("nimm .*")) {
                 clientObj.add(currentRoom.getObj());
             }
@@ -148,7 +148,9 @@ public class ClientHandler extends Thread {
         if (input.matches(("b"))) {
             out.println(currentRoom.getKurz());
             out.println(currentRoom.getLang());
+            out.println(currentRoom.getNPC());
             out.println(currentRoom.clientsInRoom());
+            //TODO NPC fehlen!
         }
 
         // who-List
