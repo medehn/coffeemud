@@ -92,6 +92,19 @@ public class Cafeteria extends Room {
 
     }
 
+    public void action(ClientHandler handler) throws InterruptedException {
+        handler.out.println("Du nippst an deiner Tasse Kaffee... und verbrennst dir die Zunge. HEISS!");
+        TimeUnit.MILLISECONDS.sleep(3000);
+        handler.out.println("Du pustest auf deinen Kaffee, damit er etwas kälter wird.");
+        TimeUnit.MILLISECONDS.sleep(2000);
+        handler.out.println("Vorsichtig nimmst du einen Schluck von dem heissen, schwarzen Gebraeu.");
+        TimeUnit.MILLISECONDS.sleep(2000);
+        handler.out.println("Jetzt hat er genau die richtige Temperatur. Du trinkst einen grossen Schluck und freust dich über den tollen " +
+            "Geschmack.");
+        TimeUnit.MILLISECONDS.sleep(4000);
+        handler.out.println("Noch einen grossen Schluck... und dann ist der Kaffee auch schonwieder leer.");
+
+    }
     public String syntax() {
         return "Probiere doch mal: \"bestell kaffee\"";
     }

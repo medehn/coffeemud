@@ -4,7 +4,6 @@
 package Server;
 
 import Basis.Room;
-import rooms.Cafeteria;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -135,21 +134,12 @@ public class ClientHandler extends Thread {
             }
         }
 
-        if (input.matches("trink kaffee")){
-            out.println("Du nippst an deiner Tasse Kaffee... und verbrennst dir die Zunge. HEISS!");
-            TimeUnit.MILLISECONDS.sleep(3000);
-            out.println("Du pustest auf deinen Kaffee, damit er etwas kälter wird.");
-            TimeUnit.MILLISECONDS.sleep(2000);
-            out.println("Vorsichtig nimmst du einen Schluck von dem heissen, schwarzen Gebraeu.");
-            TimeUnit.MILLISECONDS.sleep(2000);
-            out.println("Jetzt hat er genau die richtige Temperatur. Du trinkst einen grossen Schluck und freust dich über den tollen " +
-                "Geschmack.");
-            TimeUnit.MILLISECONDS.sleep(4000);
-            out.println("Noch einen grossen Schluck... und dann ist der Kaffee auch schonwieder leer.");
+        if (input.matches("trink kaffee")) {
+            currentRoom.action(this);
             currentRoom.deleteCup(this);
         }
 
-
+        //inventory
         if (input.matches("i")) {
             if (clientObj.isEmpty()) {
                 out.println("Du hast nichts bei dir.");
@@ -159,28 +149,32 @@ public class ClientHandler extends Thread {
                 }
             }
         }
+
         //close connection and window
         if (input.matches("ende")) {
             endConn();
         }
         currentRoom.roomItems();
+
         // if "b" is typed, the long description of the room is prompted - only for the current client!
         if (input.matches(("b"))) {
             out.println(currentRoom.getKurz());
             out.println(currentRoom.getLang());
             out.println(currentRoom.getNPC());
             out.println(currentRoom.clientsInRoom());
-            //TODO NPC fehlen!
         }
 
         // who-List
-        else if (input.matches(("wer"))) {
+        if (input.matches(("wer"))) {
 
             out.println("Momentan sind eingeloggt:");
             for (String name : names) {
                 out.println(name.substring(20));
             }
-        } else if (input.matches(("hilfe"))) {
+
+        }
+        //list of help - syntax-related
+        if (input.matches(("hilfe"))) {
             out.println("Liste der Kommandos:");
             out.println("b =            betrachte deine Umgebung.");
             out.println("b GEGENSTAND = betrachte einen Gewissen Gegenstand oder ein Detail genauer.");
@@ -196,10 +190,11 @@ public class ClientHandler extends Thread {
                 "Ausserdem schreib einfach alles klein - also kaffeefilter statt Kaffeefilter.");
         }
 
-        if(input.matches("syntax")){
+        //more specific syntax help per room
+        if (input.matches("syntax")) {
             out.println(currentRoom.syntax());
         }
-        //watching at details
+        //looking at details
         if (input.length() > 3) {
             String key = input.substring(2);
             if (input.matches("b " + key)) {
@@ -210,6 +205,7 @@ public class ClientHandler extends Thread {
         }
     }
 
+    //shutting down connection, unregistering
     private void endConn() {
         //remove client if he closes the connection
         if (name != null) {
@@ -245,6 +241,7 @@ public class ClientHandler extends Thread {
                 //set the current room to the room that is west of the last
                 currentRoom = currentRoom.goWest();
                 //print room description
+                out.println("");
                 out.println(currentRoom.getKurz());
                 out.println(currentRoom.getLang());
                 //send notification to other handlers that you entered
@@ -265,6 +262,7 @@ public class ClientHandler extends Thread {
                 currentRoom.unregister(this);
                 currentRoom.leaveRoom(this);
                 currentRoom = currentRoom.goOst();
+                out.println("");
                 out.println(currentRoom.getKurz());
                 out.println(currentRoom.getLang());
                 currentRoom.enterRoom(this);
@@ -282,6 +280,7 @@ public class ClientHandler extends Thread {
                 currentRoom.unregister(this);
                 currentRoom.leaveRoom(this);
                 currentRoom = currentRoom.goSud();
+                out.println("");
                 out.println(currentRoom.getKurz());
                 out.println(currentRoom.getLang());
                 currentRoom.enterRoom(this);
@@ -299,6 +298,7 @@ public class ClientHandler extends Thread {
                 currentRoom.unregister(this);
                 currentRoom.leaveRoom(this);
                 currentRoom = currentRoom.goNord();
+                out.println("");
                 out.println(currentRoom.getKurz());
                 out.println(currentRoom.getLang());
                 currentRoom.enterRoom(this);

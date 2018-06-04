@@ -88,6 +88,7 @@ public class Room {
 
     public void roomItems() {}
     public void deleteCup(ClientHandler handler){}
+    public void action(ClientHandler handler) throws InterruptedException {}
 
     public void raetsel(ClientHandler handler) throws InterruptedException {
     }
