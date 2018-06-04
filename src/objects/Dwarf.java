@@ -6,7 +6,8 @@ public class Dwarf extends BasisObject {
     private String kurz = "Ein Festungszwerg.";
     private String lang = "Eine seltsame Kreatur steht vor dir. Klein, rote Nase, zerschlissene Kleidung, Bart..." +
         "Ein Zwerg! Er riecht nach billigem Fusel und schaut dich frech an. Er steht auf einer zerknuellten Packung " +
-        "mit etwas, war entfernt an Kaffeefilter erinnert.";
+        "mit etwas, war entfernt an Kaffeefilter erinnert. Falls du einen brauchst, versuche doch einfach" +
+        " mal, einen zu nehmen.";
 
     @Override
     public String getKurz() {

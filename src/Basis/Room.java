@@ -54,7 +54,6 @@ public class Room {
                 break;
             } else {
                 client.out.println(client.name.substring(20) + " entfernt sich.");
-
             }
         }
     }
@@ -63,7 +62,6 @@ public class Room {
     public String clientsInRoom() {
         if (clients.size() == 1) {
             return "Nur du befindest dich in diesem Raum.";
-            //TODO add output for NPCs
         } else {
             String clientList = "";
             ClientHandler first = clients.get(0);
@@ -84,8 +82,6 @@ public class Room {
         return "Das hat nicht funktioniert.";
     }
 
-    ;
-
     public String kurzItems(String i) {
         return "Das hat nicht funktioniert.";
     }
@@ -96,8 +92,6 @@ public class Room {
     public String raetsel(ClientHandler handler) {
         return "Da gibt es nichts.";
     }
-
-
 
     public Room goWest() {
         return null;
@@ -129,7 +123,6 @@ public class Room {
 
     public String getKurz() {
         return kurz;
-
     }
 
     public String getWesten() {
@@ -163,5 +156,4 @@ public class Room {
     public void setSueden(String sueden) {
         this.sueden = sueden;
     }
-
 }

@@ -20,7 +20,6 @@ public class Hallway extends Room {
         return roomHandler.getParkExit();
     }
 
-
     @Override
     public String getLang() {
         return lang;

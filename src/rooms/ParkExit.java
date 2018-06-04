@@ -6,10 +6,8 @@ import Server.ClientHandler;
 import Server.roomHandler;
 import objects.Dwarf;
 import objects.Filter;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 
 public class ParkExit extends Room {
@@ -21,10 +19,9 @@ public class ParkExit extends Room {
     private String westen = "Du gehst durch den Park.";
     private String sueden = "Du gehst durch den Park.";
     private String norden = "Du gehst durch den Park.";
-    public Dwarf Festungszwerk = new Dwarf();
-    public Filter Kaffeefilter = new Filter();
-
-    public HashMap<String, BasisObject> roomItems = new HashMap<>();
+    private Dwarf Festungszwerk = new Dwarf();
+    private Filter Kaffeefilter = new Filter();
+    private HashMap<String, BasisObject> roomItems = new HashMap<>();
 
     public void roomItems() {
         roomItems.put("festungszwerg", Festungszwerk);
