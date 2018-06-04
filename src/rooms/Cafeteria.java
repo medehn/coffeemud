@@ -41,6 +41,7 @@ public class Cafeteria extends Room {
             return markus.getLang();
         } else return "Was genau willst du anschauen?";
     }
+
     public String kurzItems(String i) {
         return roomItems.get(i).getKurz();
     }

@@ -5,7 +5,8 @@ import Basis.BasisObject;
 public class Dwarf extends BasisObject {
     private String kurz = "Ein Zwerg.";
     private String lang = "Eine seltsame Kreatur steht vor dir. Klein, rote Nase, zerschlissene Kleidung, Bart..." +
-        "Ein Zwerg! Er riecht nach billigem Fusel und schaut dich frech an. Er murmelt irgendetwas. Belausche ihn doch mal!";
+        "Ein Zwerg! Er riecht nach billigem Fusel und schaut dich frech an. Er steht auf einer zerknuellten Packung " +
+        "mit etwas, war entfernt an Kaffeefilter erinnert.";
 
     @Override
     public String getKurz() {

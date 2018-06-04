@@ -1,12 +1,19 @@
 package rooms;
 
+import Basis.BasisObject;
 import Basis.Room;
 import Server.roomHandler;
 import objects.Dwarf;
+import objects.Filter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 public class ParkExit extends Room {
-    private String lang = "Du stehst am Anfang des Parks. Ein paar Sitzbaenke stehen verteilt, du kannst eine " +
-        "Runde spazieren gehen wenn du willst! Der Park erstreckt sich nach Norden, Osten und Sueden." +
+    private String lang = "Du stehst am Anfang des Parks. " +
+        "Ein paar Sitzbaenke stehen verteilt. Der Park erstreckt sich nach Norden, Osten und Sueden." +
         " Im Osten geht es durch einen Flur zur Cafeteria.";
     private String kurz = "Im Park";
     private String osten = "Du gehst nach Osten in den Flur.";
@@ -14,20 +21,45 @@ public class ParkExit extends Room {
     private String sueden = "Du gehst durch den Park.";
     private String norden = "Du gehst durch den Park.";
     public Dwarf Festungszwerk = new Dwarf();
+    public Filter Kaffeefilter = new Filter();
 
-    public String getNPC(){
+    public HashMap<String, BasisObject> roomItems = new HashMap<>();
+
+    public void roomItems() {
+        roomItems.put("festungszwerg", Festungszwerk);
+        roomItems.put("kaffeefilter", Kaffeefilter);
+    }
+
+    public String getNPC() {
         return Festungszwerk.getKurz();
     }
-    public String raetselSyntax(){
-        return "belausche zwerg";
+
+    public String getObj() {
+        return Kaffeefilter.getKurz();
+    }
+
+    public String langItems(String i) {
+        if (i.equals("festungszwerg")) {
+            return roomItems.get(i).getLang();
+        } else if (i.equals("kaffeefilter")) {
+            return roomItems.get(i).getLang();
+        } else return "Was genau willst du anschauen?";
+    }
+
+    public String raetselSyntax() {
+        return "nimm kaffeefilter";
     }
 
     public String raetsel() {
-        String raetselText = "Der Zwerg murmelt: Hahahaha, das war so einfach... diese Filter, die kann ich bestimmt benutzen, " +
-            "um meinen naechsten Fusel zu filtern... HE! Guck nicht so! Was willst du von mir!";
-
+        Random ran = new Random();
+        ArrayList<String> pickFilter= new ArrayList<>();
+        pickFilter.add("Du versuchst einen Filter aus der Packung zu nehmen, aber der Zwerg steigt dir auf " +
+            "die Finger. AU!");
+        pickFilter.add("Du schnappst dem Zwerg einen Filter unter den Fuessen weg.");
+        String raetselText = pickFilter.get(ran.nextInt(pickFilter.size()));
         return raetselText;
     }
+
     public Room goOst() {
         return roomHandler.getEingang();
     }

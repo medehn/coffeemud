@@ -1,3 +1,6 @@
+//This class organizes everything that a Client can do and redirects to the belonging romms and objects
+//includes: movement, communication, basic inputs
+
 package Server;
 
 import Basis.Room;
@@ -10,6 +13,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
@@ -25,6 +29,7 @@ public class ClientHandler extends Thread {
     private BufferedReader in;
     public PrintWriter out;
     private Room currentRoom;
+    public ArrayList<String> clientObj = new ArrayList<>();
 
     public ClientHandler(Socket socket) {
         this.socket = socket;
@@ -46,9 +51,9 @@ public class ClientHandler extends Thread {
                 out.println("");
                 graphics();
                 out.println("");
-                out.println("Dies ist ein MUD - ein Multi User Dungeon. Tippe \"hilfe\", um dir eine Liste der Kommandos ausgeben zu lassen,");
+                out.println("Dies ist ein MUD - ein Multi User Dungeon. Logge dich mit deinem Namen ein. Nach dem Einloggen kannst du \"hilfe\" eingeben, um dir eine Liste der Kommandos ausgeben zu lassen,");
                 out.println("Sieh dich um, unterhalte dich, hab Spass! Falls du Bugs findest darfst du sie gern behalten.");
-                out.println("Da dieses MUD noch im Aufbau ist freut sich Mel ueber Inputs,  und Ideen!");
+                out.println("Da dieses MUD noch im Aufbau ist freut sich Mel ueber Inputs und Ideen!");
                 out.println("");
                 //sleep for delayed output
                 TimeUnit.MILLISECONDS.sleep(1000);
@@ -108,7 +113,6 @@ public class ClientHandler extends Thread {
                 writer.println(name.substring(20) + " schreit: " + input.substring(6));
             }
         }
-
         if (input.matches("sag .*")) {
             String text = input.substring(3);
             currentRoom.say(text);
@@ -121,8 +125,20 @@ public class ClientHandler extends Thread {
         //starting raetsel communication if there is any in the currentroom
         if (input.matches(currentRoom.raetselSyntax())) {
             out.println(currentRoom.raetsel());
+            if (currentRoom.raetselSyntax().matches("nimm .*")) {
+                clientObj.add(currentRoom.getObj());
+            }
         }
 
+        if(input.matches("i")) {
+            if (clientObj.isEmpty()) {
+                out.println("Du hast nichts bei dir.");
+            } else {
+                for (int i = 0; i < clientObj.size(); i++) {
+                    out.println(clientObj.get(i));
+                }
+            }
+        }
         //close connection and window
         if(input.matches("ende")){
             endConn();
@@ -148,8 +164,10 @@ public class ClientHandler extends Thread {
             out.println("b GEGENSTAND = betrachte einen Gewissen Gegenstand oder ein Detail genauer.");
             out.println("sag TEXT = sende TEXT als Chat-Mitteilung an alle eingeloggten User.");
             out.println("wer = Liste der momentan eingeloggten User");
+            out.println("i - zeigt dir dein Inventar, also das, was du bei dir traegst.");
             out.println("n,o,s,w = Norden, Osten, Süden, Westen - mit jeweils einem Befehl bewegst du dich in die jeweilige Richtung");
             out.println("ende - beendet die Verbindung und schliesst das aktive Fenster");
+            out.println("Ausserdem gibt es in den Beschreibungen der Raeume und Gegenstaende Hinweise auf weitere Eingaben.");
         }
         //watching at details
         if (input.length() > 3) {

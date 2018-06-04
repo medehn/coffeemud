@@ -20,13 +20,14 @@ public class Room {
         clients.add(clientHandler);
         clientsInRoom();
     }
-
+    public ArrayList<String> syntax = new ArrayList<>();
     public String raetselSyntax(){
         return "";
     }
     public String getNPC() {
         return "";
     }
+    public String getObj(){ return ""; }
 
     //communication, limited to the room
     public void say(String text) {

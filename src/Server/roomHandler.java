@@ -1,3 +1,5 @@
+//This class instanciates all the rooms and by this redirects actions that the Clienthandler specifies
+
 package Server;
 
 import rooms.*;
