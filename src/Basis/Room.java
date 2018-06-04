@@ -89,8 +89,7 @@ public class Room {
     public void roomItems() {}
     public void deleteCup(ClientHandler handler){}
 
-    public String raetsel(ClientHandler handler) {
-        return "Da gibt es nichts.";
+    public void raetsel(ClientHandler handler) throws InterruptedException {
     }
 
     public Room goWest() {

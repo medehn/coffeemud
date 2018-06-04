@@ -125,10 +125,10 @@ public class ClientHandler extends Thread {
 
         //starting raetsel communication if there is any in the currentroom
         if (input.matches(currentRoom.raetselSyntax())) {
-            out.println(currentRoom.raetsel(this));
+            currentRoom.raetsel(this);
             if (currentRoom.raetselSyntax().matches("nimm .*")) {
                 if (clientObj.contains(currentRoom.getObj())) {
-                    out.println("Du hast ja schon einen Filter genommen, das sollte reichen.");
+                    out.println("Du hast ja schon einen Filter genommen, das sollte reichen, darum legst du den zweiten Filter zurueck.");
                 } else {
                     clientObj.add(currentRoom.getObj());
                 }

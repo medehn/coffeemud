@@ -48,14 +48,14 @@ public class ParkExit extends Room {
         return "nimm kaffeefilter";
     }
 
-    public String raetsel(ClientHandler handler) {
+    public void raetsel(ClientHandler handler) {
         Random ran = new Random();
         ArrayList<String> pickFilter= new ArrayList<>();
         pickFilter.add("Du versuchst einen Filter aus der Packung zu nehmen und erwischst auch einen - aber der Zwerg "+
             "steigt dir dabei kraeftig auf die Finger. AU!");
         pickFilter.add("Du schnappst dem Zwerg einen Filter unter den Fuessen weg.");
         String raetselText = pickFilter.get(ran.nextInt(pickFilter.size()));
-        return raetselText;
+        handler.out.println(raetselText);
     }
 
     public String syntax(){

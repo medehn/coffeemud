@@ -10,6 +10,7 @@ import objects.Cup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 public class Cafeteria extends Room {
 
@@ -18,6 +19,7 @@ public class Cafeteria extends Room {
         "Bestelle doch mal einen Kaffee! Im Westen geht es in den Flur.";
 
     private String kurz = "Cafeteria";
+
     private String westen = "Du gehst nach Westen in den Flur.";
     public CoffeeMachine kaffeemaschine = new CoffeeMachine();
     public Barkeeper markus = new Barkeeper();
@@ -46,7 +48,7 @@ public class Cafeteria extends Room {
             return roomItems.get(currentObj).getDetails1();
         } else if (i.equals("barkeeper")) {
             return markus.getLang();
-        }else if (i.equals("kaffee")) {
+        } else if (i.equals("kaffee")) {
             return markus.getLang();
         } else return "Was genau willst du anschauen?";
     }
@@ -55,37 +57,51 @@ public class Cafeteria extends Room {
         return roomItems.get(i).getKurz();
     }
 
-    public String raetsel(ClientHandler handler) {
+    public void raetsel(ClientHandler handler) throws InterruptedException {
         String raetselObj = "Ein Kaffeefilter";
-        if(handler.clientObj.isEmpty()) {
-            String raetselText = "Markus sagt: \"Du moechtest einen Kaffee? Tut mir leid, die Kaffeemaschine funktioniert gerade nicht." +
-                "Ich habe keine Filter mehr - ein Festungszwerg hat mir die Packung mit den Filtern geklaut und ist in " +
-                "den Park gerannt. Wenn du mir einen Filter bringst kann ich dir einen Kaffee machen.\"";
-            return raetselText;
+        if (handler.clientObj.contains(kaffee.getKurz())) {
+            handler.out.println("Markus schaut dich schief an und sagt: \"Ernsthaft? Du hast ja schon eine Tasse Kaffee in der Hand!\"");
+        } else if (handler.clientObj.isEmpty()) {
+            handler.out.println("");
+            handler.out.println("Markus sagt: \"Du moechtest einen Kaffee? Tut mir leid, die Kaffeemaschine funktioniert gerade nicht.");
+            TimeUnit.MILLISECONDS.sleep(1000);
+            handler.out.println("Ich habe keine Filter mehr - ein Festungszwerg hat mir die Packung mit den Filtern geklaut und ist in den Park gerannt.");
+            TimeUnit.MILLISECONDS.sleep(1000);
+            handler.out.println("Wenn du mir einen Filter bringst kann ich dir einen Kaffee machen.\"");
+
         }
         if (handler.clientObj.contains(raetselObj)) {
-            String raetselText = "Markus sagt: \"Du moechtest einen Kaffee? Tut mir leid, die Kaffeemaschine funktioniert gerade nicht. " +
-                "Ich habe keine Filter mehr... Moment mal! Du hast ja da einen Kaffeefilter bei dir!\" - er greift ueber die Theke und nimmt dir " +
-                "den Filter aus der Hand. \"Wunderbar, endlich kann ich wieder Kaffee kochen!\" Er hantiert an der Maschine herum bis " +
-                "diese endlich anspringt und einen wunderbar duftenden Kaffee auslaesst. \"Hier, bitte, der ist fuer dich, geht aufs Haus!\" sagt er" +
-                " und drueckt dir eine Tasse Kaffee in die Hand - und flucht laut \"NEIN! Verdammt! Der Filter ist zerrissen! das wars wieder mit Kaffee.";
+            handler.out.println("");
+            handler.out.println("Markus sagt: \"Du moechtest einen Kaffee? Tut mir leid, die Kaffeemaschine funktioniert gerade nicht. " +
+                "Ich habe keine Filter mehr... ");
+            TimeUnit.MILLISECONDS.sleep(1000);
+            handler.out.println("Moment mal! Du hast ja da einen Kaffeefilter bei dir!\" - er greift ueber die Theke und nimmt dir " +
+                "den Filter aus der Hand.");
+            TimeUnit.MILLISECONDS.sleep(1000); handler.out.println("\"Wunderbar, endlich kann ich wieder Kaffee kochen!\"");
+            handler.out.println("Er hantiert an der Maschine herum bis " +
+                "diese endlich anspringt und einen wunderbar duftenden Kaffee auslaesst.");
+            TimeUnit.MILLISECONDS.sleep(3000);
+            handler.out.println("\"Hier, bitte, der ist fuer dich, geht aufs Haus!\" sagt er" +
+                " und drueckt dir eine Tasse Kaffee in die Hand.");
+            TimeUnit.MILLISECONDS.sleep(1000);
+            handler.out.println("- und flucht laut \"NEIN! Verdammt! Der Filter ist zerrissen! Das wars wieder mit Kaffee.");
+            handler.out.println("");
             handler.clientObj.remove(raetselObj);
             handler.clientObj.add(kaffee.getKurz());
-            return raetselText;
         }
-        return "";
+
     }
 
-    public String syntax(){
+    public String syntax() {
         return "Probiere doch mal: \"bestell kaffee\"";
     }
 
-    public void deleteCup(ClientHandler handler){
+    public void deleteCup(ClientHandler handler) {
         handler.clientObj.remove(kaffee.getKurz());
 
     }
 
-    public String raetselSyntax(){
+    public String raetselSyntax() {
         return "bestell kaffee";
     }
 
