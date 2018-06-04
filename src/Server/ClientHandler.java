@@ -126,11 +126,16 @@ public class ClientHandler extends Thread {
         if (input.matches(currentRoom.raetselSyntax())) {
             out.println(currentRoom.raetsel(this));
             if (currentRoom.raetselSyntax().matches("nimm .*")) {
-                clientObj.add(currentRoom.getObj());
+                if (clientObj.contains(currentRoom.getObj())) {
+                    out.println("Du hast ja schon einen Filter genommen, einer sollte reichen.");
+                } else {
+                    clientObj.add(currentRoom.getObj());
+                    System.out.println(clientObj.toString());
+                }
             }
         }
 
-        if(input.matches("i")) {
+        if (input.matches("i")) {
             if (clientObj.isEmpty()) {
                 out.println("Du hast nichts bei dir.");
             } else {
@@ -140,7 +145,7 @@ public class ClientHandler extends Thread {
             }
         }
         //close connection and window
-        if(input.matches("ende")){
+        if (input.matches("ende")) {
             endConn();
         }
         currentRoom.roomItems();
@@ -182,7 +187,7 @@ public class ClientHandler extends Thread {
         }
     }
 
-    private void endConn(){
+    private void endConn() {
         //remove client if he closes the connection
         if (name != null) {
             names.remove(name);

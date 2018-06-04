@@ -96,9 +96,8 @@ public class Room {
     public String raetsel(ClientHandler handler) {
         return "Da gibt es nichts.";
     }
-    public String raetsel() {
-        return "Da gibt es nichts.";
-    }
+
+
 
     public Room goWest() {
         return null;

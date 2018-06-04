@@ -3,7 +3,7 @@ package objects;
 import Basis.BasisObject;
 
 public class Dwarf extends BasisObject {
-    private String kurz = "Ein Zwerg.";
+    private String kurz = "Ein Festungszwerg.";
     private String lang = "Eine seltsame Kreatur steht vor dir. Klein, rote Nase, zerschlissene Kleidung, Bart..." +
         "Ein Zwerg! Er riecht nach billigem Fusel und schaut dich frech an. Er steht auf einer zerknuellten Packung " +
         "mit etwas, war entfernt an Kaffeefilter erinnert.";

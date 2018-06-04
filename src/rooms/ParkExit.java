@@ -2,6 +2,7 @@ package rooms;
 
 import Basis.BasisObject;
 import Basis.Room;
+import Server.ClientHandler;
 import Server.roomHandler;
 import objects.Dwarf;
 import objects.Filter;
@@ -50,7 +51,7 @@ public class ParkExit extends Room {
         return "nimm kaffeefilter";
     }
 
-    public String raetsel() {
+    public String raetsel(ClientHandler handler) {
         Random ran = new Random();
         ArrayList<String> pickFilter= new ArrayList<>();
         pickFilter.add("Du versuchst einen Filter aus der Packung zu nehmen, aber der Zwerg steigt dir auf " +

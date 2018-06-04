@@ -6,6 +6,9 @@ import Server.roomHandler;
 import objects.Barkeeper;
 import Basis.BasisObject;
 import objects.CoffeeMachine;
+import objects.Cup;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Cafeteria extends Room {
@@ -18,11 +21,14 @@ public class Cafeteria extends Room {
     private String westen = "Du gehst nach Westen in den Flur.";
     public CoffeeMachine kaffeemaschine = new CoffeeMachine();
     public Barkeeper markus = new Barkeeper();
+    public Cup kaffee = new Cup();
     public HashMap<String, BasisObject> roomItems = new HashMap<>();
+    public ArrayList<String> raetselText = new ArrayList<>();
 
     public void roomItems() {
         roomItems.put("kaffeemaschine", kaffeemaschine);
         roomItems.put("barkeeper", markus);
+        roomItems.put("kaffee", kaffee);
     }
 
     //method to display NPCs in the room
@@ -40,6 +46,8 @@ public class Cafeteria extends Room {
             return roomItems.get(currentObj).getDetails1();
         } else if (i.equals("barkeeper")) {
             return markus.getLang();
+        }else if (i.equals("kaffee")) {
+            return markus.getLang();
         } else return "Was genau willst du anschauen?";
     }
 
@@ -48,14 +56,21 @@ public class Cafeteria extends Room {
     }
 
     public String raetsel(ClientHandler handler) {
+        String raetselObj = "Ein Kaffeefilter";
         if(handler.clientObj.isEmpty()) {
-            String raetselText = "Markus sagt: Du moechtest einen Kaffee? Tut mir leid, die Kaffeemaschine funktioniert gerade nicht." +
+            String raetselText = "Markus sagt: \"Du moechtest einen Kaffee? Tut mir leid, die Kaffeemaschine funktioniert gerade nicht." +
                 "Ich habe keine Filter mehr - ein Festungszwerg hat mir die Packung mit den Filtern geklaut und ist in " +
-                "den Park gerannt. Wenn du mir einen Filter bringst kann ich dir einen Kaffee machen.";
+                "den Park gerannt. Wenn du mir einen Filter bringst kann ich dir einen Kaffee machen.\"";
             return raetselText;
-        } else if (handler.clientObj.contains("Ein Kaffeefiilter")) {
-            System.out.println(handler.clientObj.toString());
-            String raetselText = "Markus sagt: OK!";
+        }
+        if (handler.clientObj.contains(raetselObj)) {
+            String raetselText = "Markus sagt: \"Du moechtest einen Kaffee? Tut mir leid, die Kaffeemaschine funktioniert gerade nicht. " +
+                "Ich habe keine Filter mehr... Moment mal! Du hast ja da einen Kaffeefilter bei dir!\" - er greift ueber die Theke und nimmt dir" +
+                "den Filter aus der Hand. \"Wunderbar, endlich kann ich wieder Kaffee kochen!\" Er hantiert an der Maschine herum bis " +
+                "diese endlich anspringt und einen wunderbar duftenden Kaffee auslaesst. \"Hier, bitte, der ist fuer dich, geht aufs Haus!\" sagt er" +
+                " und drueckt dir eine Tasse Kaffee in die Hand.";
+            handler.clientObj.remove(raetselObj);
+            handler.clientObj.add(kaffee.getKurz());
             return raetselText;
         }
         return "";
