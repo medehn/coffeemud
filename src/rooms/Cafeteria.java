@@ -65,10 +65,10 @@ public class Cafeteria extends Room {
         }
         if (handler.clientObj.contains(raetselObj)) {
             String raetselText = "Markus sagt: \"Du moechtest einen Kaffee? Tut mir leid, die Kaffeemaschine funktioniert gerade nicht. " +
-                "Ich habe keine Filter mehr... Moment mal! Du hast ja da einen Kaffeefilter bei dir!\" - er greift ueber die Theke und nimmt dir" +
+                "Ich habe keine Filter mehr... Moment mal! Du hast ja da einen Kaffeefilter bei dir!\" - er greift ueber die Theke und nimmt dir " +
                 "den Filter aus der Hand. \"Wunderbar, endlich kann ich wieder Kaffee kochen!\" Er hantiert an der Maschine herum bis " +
                 "diese endlich anspringt und einen wunderbar duftenden Kaffee auslaesst. \"Hier, bitte, der ist fuer dich, geht aufs Haus!\" sagt er" +
-                " und drueckt dir eine Tasse Kaffee in die Hand.";
+                " und drueckt dir eine Tasse Kaffee in die Hand - und flucht laut \"NEIN! Verdammt! Der Filter ist zerrissen! das wars wieder mit Kaffee.";
             handler.clientObj.remove(raetselObj);
             handler.clientObj.add(kaffee.getKurz());
             return raetselText;
@@ -76,8 +76,17 @@ public class Cafeteria extends Room {
         return "";
     }
 
+    public String syntax(){
+        return "Probiere doch mal: \"bestell kaffee\"";
+    }
+
+    public void deleteCup(ClientHandler handler){
+        handler.clientObj.remove(kaffee.getKurz());
+
+    }
+
     public String raetselSyntax(){
-        return "bestelle kaffee";
+        return "bestell kaffee";
     }
 
     public String details() {

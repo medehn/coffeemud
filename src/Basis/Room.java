@@ -30,19 +30,21 @@ public class Room {
     public String getObj(){ return ""; }
 
     //communication, limited to the room
-    public void say(String text) {
+    public void say(String text, ClientHandler clientHandler) {
         for (ClientHandler client : clients) {
-            client.out.println(client.name.substring(20) + " sagt: " + text);
+            client.out.println(clientHandler.name.substring(20) + " sagt: " + text);
         }
+    }
+
+    public String syntax(){
+        return "Hier gibt es keine speziellen Interaktionen.";
     }
 
     //output for already present clients if new client enters a room
     public void enterRoom(ClientHandler clientHandler) {
         for (ClientHandler client : clients) {
-            if (client.equals(clientHandler)) {
-                break;
-            } else {
-                client.out.println(client.name.substring(20) + " naehert sich.");
+            if (!client.equals(clientHandler)) {
+                client.out.println(clientHandler.name.substring(20) + " naehert sich.");
             }
         }
     }
@@ -50,10 +52,8 @@ public class Room {
     //output if client leaves a room
     public void leaveRoom(ClientHandler clientHandler) {
         for (ClientHandler client : clients) {
-            if (client.equals(clientHandler)) {
-                break;
-            } else {
-                client.out.println(client.name.substring(20) + " entfernt sich.");
+            if (!client.equals(clientHandler)) {
+                client.out.println(clientHandler.name.substring(20) + " entfernt sich.");
             }
         }
     }
@@ -86,8 +86,8 @@ public class Room {
         return "Das hat nicht funktioniert.";
     }
 
-    public void roomItems() {
-    }
+    public void roomItems() {}
+    public void deleteCup(ClientHandler handler){}
 
     public String raetsel(ClientHandler handler) {
         return "Da gibt es nichts.";

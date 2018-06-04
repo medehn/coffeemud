@@ -6,7 +6,7 @@ import Server.roomHandler;
 public class ParkLab extends Room {
 
     private String lang = "Du stehst mitten im Park. Du weisst garnicht mehr richtig wo du lang gegangen bist," +
-        "wo war die Cafeteria noch gleich?";
+        " wo war die Cafeteria noch gleich?";
     private String kurz = "Im Park";
     private String osten = "Du gehst durch den Park.";
     private String westen = "Du gehst durch den Park.";

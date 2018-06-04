@@ -4,6 +4,7 @@
 package Server;
 
 import Basis.Room;
+import rooms.Cafeteria;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -115,25 +116,39 @@ public class ClientHandler extends Thread {
         }
         if (input.matches("sag .*")) {
             String text = input.substring(3);
-            currentRoom.say(text);
+            currentRoom.say(text, this);
         }
     }
 
     //method to handle common inputs that give back a special output
-    private void commonInput() {
+    private void commonInput() throws InterruptedException {
 
         //starting raetsel communication if there is any in the currentroom
         if (input.matches(currentRoom.raetselSyntax())) {
             out.println(currentRoom.raetsel(this));
             if (currentRoom.raetselSyntax().matches("nimm .*")) {
                 if (clientObj.contains(currentRoom.getObj())) {
-                    out.println("Du hast ja schon einen Filter genommen, einer sollte reichen.");
+                    out.println("Du hast ja schon einen Filter genommen, das sollte reichen.");
                 } else {
                     clientObj.add(currentRoom.getObj());
-                    System.out.println(clientObj.toString());
                 }
             }
         }
+
+        if (input.matches("trink kaffee")){
+            out.println("Du nippst an deiner Tasse Kaffee... und verbrennst dir die Zunge. HEISS!");
+            TimeUnit.MILLISECONDS.sleep(3000);
+            out.println("Du pustest auf deinen Kaffee, damit er etwas kälter wird.");
+            TimeUnit.MILLISECONDS.sleep(2000);
+            out.println("Vorsichtig nimmst du einen Schluck von dem heissen, schwarzen Gebraeu.");
+            TimeUnit.MILLISECONDS.sleep(2000);
+            out.println("Jetzt hat er genau die richtige Temperatur. Du trinkst einen grossen Schluck und freust dich über den tollen " +
+                "Geschmack.");
+            TimeUnit.MILLISECONDS.sleep(4000);
+            out.println("Noch einen grossen Schluck... und dann ist der Kaffee auch schonwieder leer.");
+            currentRoom.deleteCup(this);
+        }
+
 
         if (input.matches("i")) {
             if (clientObj.isEmpty()) {
@@ -167,14 +182,22 @@ public class ClientHandler extends Thread {
             }
         } else if (input.matches(("hilfe"))) {
             out.println("Liste der Kommandos:");
-            out.println("b = betrachte deine Umgebung.");
+            out.println("b =            betrachte deine Umgebung.");
             out.println("b GEGENSTAND = betrachte einen Gewissen Gegenstand oder ein Detail genauer.");
-            out.println("sag TEXT = sende TEXT als Chat-Mitteilung an alle eingeloggten User.");
-            out.println("wer = Liste der momentan eingeloggten User");
-            out.println("i - zeigt dir dein Inventar, also das, was du bei dir traegst.");
-            out.println("n,o,s,w = Norden, Osten, Süden, Westen - mit jeweils einem Befehl bewegst du dich in die jeweilige Richtung");
-            out.println("ende - beendet die Verbindung und schliesst das aktive Fenster");
+            out.println("sag TEXT =     sende TEXT als Chat-Mitteilung an alle User in dem Raum, in dem du dich gerade befindest.");
+            out.println("schrei TEXT =  sende TEXT als Chat-Mitteilung an alle eingeloggten User.");
+            out.println("wer =          Liste der momentan eingeloggten User");
+            out.println("i =            zeigt dir dein Inventar, also das, was du bei dir traegst.");
+            out.println("n,o,s,w =      Norden, Osten, Süden, Westen - mit jeweils einem Befehl bewegst du dich in die jeweilige Richtung");
+            out.println("ende =         beendet die Verbindung und schliesst das aktive Fenster");
             out.println("Ausserdem gibt es in den Beschreibungen der Raeume und Gegenstaende Hinweise auf weitere Eingaben.");
+            out.println("In Raeumen mit speziellen Interaktionen hilft ausserdem die Eingabe \"syntax\" weiter.");
+            out.println("Achtung, die Eingaben reagieren noch sehr empfindlich, wenn du \"sage\" statt \"sag\" schreibst, funktioniert es nicht." +
+                "Ausserdem schreib einfach alles klein - also kaffeefilter statt Kaffeefilter.");
+        }
+
+        if(input.matches("syntax")){
+            out.println(currentRoom.syntax());
         }
         //watching at details
         if (input.length() > 3) {
