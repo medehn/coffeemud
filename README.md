@@ -8,6 +8,8 @@ deadline, now handing it in for an university project.
 
 
 TODO:
+- add registration to save progress and characters
+- add hp System, followed by possible fight and evolution
 - improve input-handling, maybe moving away from regex all together
 - seperate classes and content more for better universal use
 - take a deeper look into dependency injection
